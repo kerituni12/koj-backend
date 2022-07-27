@@ -1,8 +1,7 @@
-import Pino, { Logger } from 'pino';
-import { LoggerOptions, destination } from 'pino';
+import Pino from 'pino';
 import { trace, context } from '@opentelemetry/api';
 
-export const loggerOptions: LoggerOptions = {
+export const loggerOptions: Pino.LoggerOptions = {
   level: 'info',
   timestamp: () => `,"@timestamp":"${new Date().toISOString()}"`,
   formatters: {
@@ -14,11 +13,11 @@ export const loggerOptions: LoggerOptions = {
       if (!span) return { ...object };
       const { spanId, traceId, traceFlags } = span.spanContext();
       return { ...object, spanId, traceId, traceFlags };
-    },
-  },
+    }
+  }
 };
 
-export const logger: Logger = Pino(
+export const logger: Pino.Logger = Pino(
   loggerOptions,
-  destination(__dirname + process.env.LOG_FILE_NAME),
+  Pino.destination(__dirname + process.env.LOG_FILE_NAME)
 );

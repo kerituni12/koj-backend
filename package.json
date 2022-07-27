@@ -46,7 +46,7 @@
     "archiver": "^5.3.1",
     "bcrypt": "^5.0.1",
     "bull": "^4.8.3",
-    "casbin": "file:../node-casbin",
+    "casbin": "^5.15.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "cookie-parser": "^1.4.6",

@@ -58,7 +58,7 @@ specifiers:
   archiver: ^5.3.1
   bcrypt: ^5.0.1
   bull: ^4.8.3
-  casbin: file:../node-casbin
+  casbin: ^5.15.2
   class-transformer: ^0.5.1
   class-validator: ^0.13.2
   cookie-parser: ^1.4.6
@@ -154,7 +154,7 @@ dependencies:
   archiver: 5.3.1
   bcrypt: 5.0.1
   bull: 4.8.4
-  casbin: file:../node-casbin_prisma@3.15.2
+  casbin: 5.15.2
   class-transformer: 0.5.1
   class-validator: 0.13.2
   cookie-parser: 1.4.6
@@ -5079,6 +5079,15 @@ packages:
   /caniuse-lite/1.0.30001370:
     resolution: {integrity: sha512-3PDmaP56wz/qz7G508xzjx8C+MC2qEm4SYhSEzC9IBROo+dGXFWRuaXkWti0A9tuI00g+toiriVqxtWMgl350g==}
     dev: true
+
+  /casbin/5.15.2:
+    resolution: {integrity: sha512-0berFkG+wPZkHUWZtmtGhAUS5vtR+jlRsXLMMaeNz6UEDf55qCQHilqKRlFcDBxRPZfabhxh9/P97+ooidmjNQ==}
+    dependencies:
+      await-lock: 2.2.2
+      csv-parse: 4.16.3
+      expression-eval: 4.0.0
+      picomatch: 2.3.1
+    dev: false
 
   /chainsaw/0.1.0:
     resolution: {integrity: sha512-75kWfWt6MEKNC8xYXIdRpDehRYY/tNSgwKaJq+dbbDcxORuVrrQ+SEHoWsniVn9XPYfP4gmdWIeDk/4YNp1rNQ==}
@@ -11516,18 +11525,3 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.0
-
-  file:../node-casbin_prisma@3.15.2:
-    resolution: {directory: ../node-casbin, type: directory}
-    id: file:../node-casbin
-    name: casbin
-    version: 5.15.1
-    dependencies:
-      '@prisma/client': 3.15.2_prisma@3.15.2
-      await-lock: 2.2.2
-      csv-parse: 4.16.3
-      expression-eval: 4.0.0
-      picomatch: 2.3.1
-    transitivePeerDependencies:
-      - prisma
-    dev: false
