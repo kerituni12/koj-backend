@@ -1,0 +1,55 @@
+{
+  "name": "custom",
+  "structs": [
+    {
+      "name": "a struct",
+      "comment": "A struct for the example",
+      "fields": [
+        {
+          "name": "listt",
+          "comment": "an listt",
+          "type": { "main": "ARRAY", "encapsulated": { "main": "INT" } },
+          "formatStyle": "DEFAULT"
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "name": "size",
+      "comment": "size",
+      "type": { "main": "INT" },
+      "formatStyle": "DEFAULT"
+    },
+    {
+      "name": "a struct",
+      "comment": "a struct",
+      "type": { "main": "OBJECT", "structName": "a struct" },
+      "formatStyle": "DEFAULT"
+    },
+    {
+      "name": "sizex",
+      "comment": "sizex",
+      "type": { "main": "INT" },
+      "formatStyle": "DEFAULT"
+    },
+    {
+      "name": "list",
+      "comment": "a list of structs",
+      "type": {
+        "main": "ARRAY",
+        "encapsulated": { "main": "ARRAY", "encapsulated": { "main": "INT" } }
+      },
+      "formatStyle": "DEFAULT"
+    }
+  ],
+  "output": {
+    "name": "output",
+    "comment": "a list of structs",
+    "type": {
+      "main": "ARRAY",
+      "encapsulated": { "main": "ARRAY", "encapsulated": { "main": "INT" } }
+    },
+    "formatStyle": "DEFAULT"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "root": "apps/saga-orchestration",
+  "sourceRoot": "apps/saga-orchestration/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/saga-orchestration",
+        "main": "apps/saga-orchestration/src/main.ts",
+        "tsConfig": "apps/saga-orchestration/tsconfig.app.json",
+        "assets": [
+          "apps/saga-orchestration/src/assets"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/saga-orchestration/src/environments/environment.ts",
+              "with": "apps/saga-orchestration/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "saga-orchestration:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/saga-orchestration/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/apps/saga-orchestration"
+      ],
+      "options": {
+        "jestConfig": "apps/saga-orchestration/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

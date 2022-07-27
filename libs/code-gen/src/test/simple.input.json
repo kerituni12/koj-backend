@@ -1,0 +1,43 @@
+{
+  "name": "hello",
+  "structs": [
+    {
+      "name": "a struct",
+      "fields": [
+        {
+          "type": "int",
+          "name": "integer",
+          "comment": "an interger"
+        },
+        {
+          "type": "char",
+          "name": "character",
+          "comment": "a char"
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "type": "int",
+      "name": "n",
+      "comment": "a number, used as a size"
+    },
+    {
+      "type": "Array[int](n)",
+      "name": "list",
+      "comment": "a list of structs"
+    }
+  ],
+  "output": {
+    "type": "array",
+    "name": "output z",
+    "encapsulated": {
+      "type": "struct",
+      "encapsulated": {
+        "type": "a struct"
+      },
+      "name": "struct output"
+    }
+  }
+}

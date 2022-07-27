@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "projects": {
+    "adapter": "libs/adapter",
+    "challenge": "apps/challenge",
+    "code-executor": "libs/code-executor",
+    "code-gen": "libs/code-gen",
+    "code-generator": "apps/code-generator",
+    "comment": "apps/comment",
+    "common-constants": "libs/common/constants",
+    "common-dto": "libs/common/dto",
+    "common-exceptions": "libs/common/exceptions",
+    "common-guards": "libs/common/guards",
+    "common-interfaces": "libs/common/interfaces",
+    "common-strategies": "libs/common/strategies",
+    "common-utils": "libs/common/utils",
+    "elastic-apm-nestjs": "libs/elastic-apm-nestjs",
+    "file-manager": "apps/file-manager",
+    "instrumentation": "libs/instrumentation",
+    "kafka": "libs/kafka",
+    "koj": "apps/koj",
+    "role": "apps/role",
+    "saga-orchestration": "apps/saga-orchestration",
+    "simple": "apps/simple",
+    "submission": "apps/submission",
+    "test": "libs/test",
+    "user": "apps/user",
+    "worker": "apps/worker"
+  }
+}

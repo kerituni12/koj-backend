@@ -1,0 +1,1137 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Auth {
+  """JWT access token payload"""
+  accessTokenPayload: String!
+  firstname: String
+  lastname: String
+  permissions: String
+
+  """JWT refresh token payload"""
+  refreshTokenPayload: String!
+  userId: ID!
+}
+
+type AuthMutations {
+  login(data: LoginInput!): Auth!
+  register(data: SignupInput!): User!
+}
+
+type Author {
+  avatar: String
+  id: Int
+  name: String
+  username: String
+}
+
+type Challenge {
+  _count: ChallengeCount!
+  acceptedLanguages: [Int!]
+  audience: String!
+  categoryId: Int
+  commentCount: Int
+  companyTags: [Int!]
+  contestId: Int
+  contributors: JSON
+  createdAt: Date!
+  createdByName: String
+  createdByUsername: String
+  description: String
+  difficulty: String!
+  dislikes: Int!
+  examples: JSON
+  functionName: String
+  highlightSolutionCount: Int
+  hint: JSON
+  id: ID!
+  inputs: JSON
+  isFavorited: Boolean!
+  languages: JSON
+  likes: Int!
+  officalSolutionCount: Int
+  output: String!
+  rate: Float
+  slug: String!
+  solutions: JSON
+  status: String!
+  structs: JSON
+  testcases: JSON
+  title: String!
+  topicTags: [TopicTag!]
+  types: JSON
+  updatedAt: Date
+}
+
+type ChallengeCount {
+  topicTags: Int!
+}
+
+input ChallengeCreateInput {
+  acceptedLanguages: ChallengeCreateacceptedLanguagesInput
+  audience: String
+  categoryId: Int
+  companyTags: ChallengeCreatecompanyTagsInput
+  contestId: Int
+  contributors: JSON
+  createdByName: String
+  description: String
+  difficulty: String
+  dislikes: Int
+  examples: JSON
+  functionName: String
+  highlightSolutionCount: Int
+  hint: JSON
+  inputs: JSON
+  isFavorited: Boolean
+  languages: JSON
+  likes: Int
+  officalSolutionCount: Int
+  output: String!
+  rate: Float
+  slug: String
+  solutions: JSON
+  status: String
+  structs: JSON
+  testcases: JSON
+  title: String!
+  topicTags: TopicTagCreateNestedManyWithoutChallengesInput
+  types: JSON
+}
+
+input ChallengeCreateacceptedLanguagesInput {
+  set: [Int!]!
+}
+
+input ChallengeCreatecompanyTagsInput {
+  set: [Int!]!
+}
+
+input ChallengeListRelationFilter {
+  every: ChallengeWhereInput
+  none: ChallengeWhereInput
+  some: ChallengeWhereInput
+}
+
+type ChallengeMutations {
+  createChallenge(data: ChallengeCreateInput!): Challenge!
+  removeChallenge(where: KChallengeWhereUniqueInput!): Challenge!
+  submitChallenge(data: ChallengeSubmitInput!): ChallengeSubmitResult!
+  updateChallenge(data: ChallengeUpdateInput!, where: KChallengeWhereUniqueInput!): Challenge!
+}
+
+input ChallengeOrderByWithRelationInput {
+  acceptedLanguages: SortOrder
+  audience: SortOrder
+  categoryId: SortOrder
+  companyTags: SortOrder
+  contestId: SortOrder
+  contributors: SortOrder
+  createdByName: SortOrder
+  description: SortOrder
+  difficulty: SortOrder
+  dislikes: SortOrder
+  examples: SortOrder
+  functionName: SortOrder
+  highlightSolutionCount: SortOrder
+  hint: SortOrder
+  id: SortOrder
+  inputs: SortOrder
+  isFavorited: SortOrder
+  languages: SortOrder
+  likes: SortOrder
+  officalSolutionCount: SortOrder
+  output: SortOrder
+  rate: SortOrder
+  slug: SortOrder
+  solutions: SortOrder
+  status: SortOrder
+  structs: SortOrder
+  testcases: SortOrder
+  title: SortOrder
+  topicTags: TopicTagOrderByRelationAggregateInput
+  types: SortOrder
+}
+
+type ChallengeResult {
+  errorMessage: String
+  expectedOutput: String
+  hidden: Boolean
+  log: String
+  memory: Int
+  message: String
+  output: String
+  result: Boolean
+  time: Int
+}
+
+type ChallengeResultInfo {
+  score: Int
+  testcaseCount: Int
+  testcasePassCount: Int
+  totalScore: Int
+}
+
+enum ChallengeScalarFieldEnum {
+  acceptedLanguages
+  audience
+  categoryId
+  commentCount
+  companyTags
+  contestId
+  contributors
+  createdAt
+  createdById
+  createdByName
+  createdByUsername
+  description
+  difficulty
+  dislikes
+  domainId
+  examples
+  functionName
+  highlightSolutionCount
+  hint
+  id
+  inputs
+  isFavorited
+  languages
+  likes
+  officalSolutionCount
+  output
+  rate
+  slug
+  solutions
+  status
+  structs
+  testcases
+  title
+  types
+  updatedAt
+}
+
+input ChallengeSlugDomainIdCompoundUniqueInput {
+  slug: String!
+}
+
+input ChallengeSubmitInput {
+  challengeId: Int!
+  content: String!
+  functionName: String!
+  languageId: String!
+  slug: String!
+  type: String!
+}
+
+type ChallengeSubmitResult {
+  error: String
+  info: ChallengeResultInfo
+  result: [ChallengeResult!]
+}
+
+input ChallengeUpdateInput {
+  acceptedLanguages: ChallengeUpdateacceptedLanguagesInput
+  audience: String
+  categoryId: Int
+  companyTags: ChallengeUpdatecompanyTagsInput
+  contestId: Int
+  contributors: JSON
+  createdByName: String
+  description: String
+  difficulty: String
+  dislikes: Int
+  examples: JSON
+  functionName: String
+  highlightSolutionCount: Int
+  hint: JSON
+  inputs: JSON
+  isFavorited: Boolean
+  languages: JSON
+  likes: Int
+  officalSolutionCount: Int
+  output: String
+  rate: Float
+  slug: String
+  solutions: JSON
+  status: String
+  structs: JSON
+  testcases: JSON
+  title: String
+  topicTags: TopicTagUpdateManyWithoutChallengesNestedInput
+  types: JSON
+}
+
+input ChallengeUpdateacceptedLanguagesInput {
+  push: [Int!]
+  set: [Int!]
+}
+
+input ChallengeUpdatecompanyTagsInput {
+  push: [Int!]
+  set: [Int!]
+}
+
+input ChallengeWhereInput {
+  AND: [ChallengeWhereInput!]
+  NOT: [ChallengeWhereInput!]
+  OR: [ChallengeWhereInput!]
+  acceptedLanguages: IntNullableListFilter
+  audience: String
+  categoryId: Int
+  companyTags: IntNullableListFilter
+  contestId: Int
+  contributors: JsonNullableFilter
+  createdByName: String
+  description: String
+  difficulty: String
+  dislikes: Int
+  examples: JsonNullableFilter
+  functionName: String
+  highlightSolutionCount: Int
+  hint: JsonNullableFilter
+  id: Int
+  inputs: JsonNullableFilter
+  isFavorited: Boolean
+  languages: JsonNullableFilter
+  likes: Int
+  officalSolutionCount: Int
+  output: String
+  rate: Float
+  slug: String
+  solutions: JsonNullableFilter
+  status: String
+  structs: JsonNullableFilter
+  testcases: JsonNullableFilter
+  title: String
+  topicTags: TopicTagListRelationFilter
+  types: JsonNullableFilter
+}
+
+input ChallengeWhereUniqueInput {
+  id: Int
+  slug_domainId: ChallengeSlugDomainIdCompoundUniqueInput
+}
+
+type Comment {
+  _id: ID!
+  author: Author
+  challengeId: Int
+  content: String
+  currentVote: Int
+  depth: Int
+  parentId: String
+  replyCount: Int
+  votePoint: Int
+  votes: [Vote!]
+}
+
+input CommentCreateInput {
+  challengeId: Int
+  content: String!
+  depth: Int!
+  parentId: String
+}
+
+type CommentCreateResult {
+  _id: String!
+}
+
+type CommentMutations {
+  create(data: CommentCreateInput!): CommentCreateResult
+  unVote(data: CommentVoteInput!): Boolean!
+  vote(data: CommentVoteInput!): Comment!
+}
+
+input CommentVoteInput {
+  commentId: String!
+  vote: Int
+}
+
+input CommentWhereInput {
+  challengeId: Int
+  parentId: String
+  userId: Int
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Group {
+  createdAt: Date!
+  createdByName: String
+  createdByUsername: String
+  description: String
+  id: ID!
+  key: String!
+  name: String!
+  status: String!
+  updatedAt: Date
+}
+
+input GroupCreateInput {
+  createdByName: String
+  description: String
+  key: String
+  name: String
+  status: String
+}
+
+type GroupMutations {
+  createGroup(data: GroupCreateInput!): Group!
+  removeGroup(where: GroupWhereUniqueInput!): Group!
+  updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group!
+}
+
+input GroupOrderByWithRelationInput {
+  createdByName: SortOrder
+  description: SortOrder
+  id: SortOrder
+  key: SortOrder
+  name: SortOrder
+  status: SortOrder
+}
+
+enum GroupScalarFieldEnum {
+  createdAt
+  createdById
+  createdByName
+  createdByUsername
+  description
+  domainId
+  id
+  key
+  name
+  status
+  updatedAt
+}
+
+input GroupUpdateInput {
+  createdByName: String
+  description: String
+  key: String
+  name: String
+  status: String
+}
+
+input GroupWhereInput {
+  AND: [GroupWhereInput!]
+  NOT: [GroupWhereInput!]
+  OR: [GroupWhereInput!]
+  createdByName: String
+  description: String
+  id: Int
+  key: String
+  name: String
+  status: String
+}
+
+input GroupWhereUniqueInput {
+  id: Int
+}
+
+input IntNullableListFilter {
+  equals: [Int!]
+  has: Int
+  hasEvery: [Int!]
+  hasSome: [Int!]
+  isEmpty: Boolean
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+input JsonNullableFilter {
+  array_contains: JSON
+  array_ends_with: JSON
+  array_starts_with: JSON
+  equals: JSON
+  gt: JSON
+  gte: JSON
+  lt: JSON
+  lte: JSON
+  not: JSON
+  path: [String!]
+  string_contains: String
+  string_ends_with: String
+  string_starts_with: String
+}
+
+input KChallengeWhereUniqueInput {
+  id: Int
+  slug: String
+}
+
+input KUserWhereUniqueInput {
+  username: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  auth: AuthMutations
+  challenge: ChallengeMutations
+  comment: CommentMutations
+  group: GroupMutations
+  policy: PolicyMutations
+  post: PostMutations
+  role: RoleMutations
+  submission: SubmissionMutations
+  submissionStatistic: SubmissionStatisticMutations
+  user: UserMutations
+}
+
+type Policy {
+  action: String!
+  condition: String
+  createdAt: Date!
+  createdByName: String
+  createdByUsername: String
+  effect: String!
+  effectWith: String!
+  id: ID!
+  object: String!
+  subject: String!
+  updatedAt: Date
+}
+
+input PolicyCreateInput {
+  action: String
+  condition: String
+  createdByName: String
+  effect: String
+  effectWith: String
+  object: String
+  subject: String
+}
+
+input PolicyFindByRoleResourceInput {
+  resource: String
+  roleId: String
+}
+
+type PolicyMutations {
+  createCasbinPolicies(data: [PolicyCreateInput!]!): [Policy!]!
+  createPolicy(data: PolicyCreateInput!): Policy!
+  removePolicy(where: PolicyWhereUniqueInput!): Policy!
+  updatePolicy(data: PolicyUpdateInput!, where: PolicyWhereUniqueInput!): Policy!
+}
+
+input PolicyOrderByWithRelationInput {
+  action: SortOrder
+  condition: SortOrder
+  createdByName: SortOrder
+  effect: SortOrder
+  effectWith: SortOrder
+  id: SortOrder
+  object: SortOrder
+  subject: SortOrder
+}
+
+enum PolicyScalarFieldEnum {
+  action
+  condition
+  createdAt
+  createdById
+  createdByName
+  createdByUsername
+  domainId
+  effect
+  effectWith
+  id
+  object
+  ptype
+  subject
+  updatedAt
+}
+
+input PolicyUpdateInput {
+  action: String
+  condition: String
+  createdByName: String
+  effect: String
+  effectWith: String
+  object: String
+  subject: String
+}
+
+input PolicyWhereInput {
+  AND: [PolicyWhereInput!]
+  NOT: [PolicyWhereInput!]
+  OR: [PolicyWhereInput!]
+  action: String
+  condition: String
+  createdByName: String
+  effect: String
+  effectWith: String
+  id: Int
+  object: String
+  subject: String
+}
+
+input PolicyWhereUniqueInput {
+  id: Int
+}
+
+type Post {
+  authorId: Int
+  content: String
+  domainId: Int!
+  id: ID!
+  published: Boolean
+  title: String!
+}
+
+type PostMutations {
+  createPost(createPostInput: CreatePostInput!): Post!
+  removePost(id: Int!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+}
+
+input PostOrderByWithRelationInput {
+  authorId: SortOrder
+  content: SortOrder
+  domainId: SortOrder
+  id: SortOrder
+  published: SortOrder
+  title: SortOrder
+}
+
+enum PostScalarFieldEnum {
+  authorId
+  content
+  domainId
+  id
+  published
+  title
+}
+
+input PostWhereInput {
+  AND: [PostWhereInput!]
+  NOT: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  authorId: Int
+  content: String
+  domainId: Int
+  id: Int
+  published: Boolean
+  title: String
+}
+
+input PostWhereUniqueInput {
+  id: Int
+}
+
+type Query {
+  challenge(where: KChallengeWhereUniqueInput!): Challenge!
+  challenge_public(where: KChallengeWhereUniqueInput!): Challenge!
+  challenges(cursor: ChallengeWhereUniqueInput, distinct: [ChallengeScalarFieldEnum!], orderBy: [ChallengeOrderByWithRelationInput!], skip: Int, take: Int, where: ChallengeWhereInput): [Challenge!]!
+  comments(where: CommentWhereInput!): [Comment!]!
+  group(where: GroupWhereUniqueInput!): Group!
+  groups(cursor: GroupWhereUniqueInput, distinct: [GroupScalarFieldEnum!], orderBy: [GroupOrderByWithRelationInput!], skip: Int, take: Int, where: GroupWhereInput): [Group!]!
+  policies(cursor: PolicyWhereUniqueInput, distinct: [PolicyScalarFieldEnum!], orderBy: [PolicyOrderByWithRelationInput!], skip: Int, take: Int, where: PolicyWhereInput): [Policy!]!
+  policy(where: PolicyWhereUniqueInput!): Policy!
+  post(where: PostWhereUniqueInput!): Post!
+  posts(cursor: PostWhereUniqueInput, distinct: [PostScalarFieldEnum!], orderBy: [PostOrderByWithRelationInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
+  role(where: RoleWhereUniqueInput!): Role!
+  roles(cursor: RoleWhereUniqueInput, distinct: [RoleScalarFieldEnum!], orderBy: [RoleOrderByWithRelationInput!], skip: Int, take: Int, where: RoleWhereInput): [Role!]!
+  submissions_by_user(cursor: SubmissionWhereUniqueInput, distinct: [SubmissionScalarFieldEnum!], orderBy: [SubmissionOrderByWithRelationInput!], skip: Int, take: Int, where: SubmissionWhereInput): [Submission!]!
+  submissions_rank(cursor: SubmissionStatisticWhereUniqueInput, distinct: [SubmissionStatisticScalarFieldEnum!], orderBy: [SubmissionStatisticOrderByWithRelationInput!], skip: Int, take: Int, where: SubmissionStatisticWhereInput): [SubmissionStatistic!]!
+  user_public(where: KUserWhereUniqueInput!): UserPublic
+  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
+  z_checkValidPolicyCondition(data: String!): Boolean!
+  z_policyByRoleResource(where: PolicyFindByRoleResourceInput!): [Policy!]!
+}
+
+type Role {
+  createdAt: Date!
+  createdByName: String
+  createdByUsername: String
+  description: String
+  id: ID!
+  key: String!
+  name: String!
+  updatedAt: Date
+}
+
+input RoleCreateInput {
+  createdByName: String
+  description: String
+  key: String
+  name: String
+
+  """Example field (placeholder)"""
+  policies: [RolePolicies!]!
+}
+
+type RoleGroup {
+  id: ID!
+  ptype: String!
+  role: String
+  rule: String
+}
+
+input RoleGroupCreateInput {
+  ptype: String
+  role: String
+  rule: String
+}
+
+input RoleGroupUpdateInput {
+  ptype: String
+  role: String
+  rule: String
+}
+
+input RoleGroupWhereUniqueInput {
+  id: Int
+}
+
+type RoleMutations {
+  createRole(data: RoleCreateInput!): Role!
+  createRoleGroup(data: RoleGroupCreateInput!): Boolean!
+  removeRole(where: RoleWhereUniqueInput!): Role!
+  removeRoleGroup(id: Int!): RoleGroup!
+  updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role!
+  updateRoleGroup(data: RoleGroupUpdateInput!, where: RoleGroupWhereUniqueInput!): RoleGroup!
+}
+
+input RoleOrderByWithRelationInput {
+  createdByName: SortOrder
+  description: SortOrder
+  id: SortOrder
+  key: SortOrder
+  name: SortOrder
+}
+
+input RolePolicies {
+  action: String
+  condition: String
+  effect: String
+  effectWith: String
+  object: String
+}
+
+enum RoleScalarFieldEnum {
+  createdAt
+  createdById
+  createdByName
+  createdByUsername
+  description
+  domainId
+  id
+  key
+  name
+  updatedAt
+}
+
+input RoleUpdateInput {
+  createdByName: String
+  description: String
+  key: String
+  name: String
+}
+
+input RoleWhereInput {
+  AND: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  createdByName: String
+  description: String
+  id: Int
+  key: String
+  name: String
+}
+
+input RoleWhereUniqueInput {
+  id: Int
+}
+
+input SignupInput {
+  email: String!
+  firstname: String
+  lastname: String
+  password: String!
+  username: String!
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+type Submission {
+  challengeId: Int
+  content: String!
+  createdAt: Date!
+  createdByUsername: String
+  id: ID!
+  info: JSON
+  ip: String
+  languageId: String
+  result: JSON
+  shared: Boolean!
+}
+
+type SubmissionMutations {
+  removeSubmission(where: SubmissionWhereUniqueInput!): Submission!
+}
+
+input SubmissionOrderByWithRelationInput {
+  challengeId: SortOrder
+  content: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  info: SortOrder
+  ip: SortOrder
+  languageId: SortOrder
+  result: SortOrder
+  shared: SortOrder
+}
+
+enum SubmissionScalarFieldEnum {
+  challengeId
+  content
+  createdAt
+  createdById
+  createdByUsername
+  domainId
+  id
+  info
+  ip
+  languageId
+  result
+  shared
+}
+
+type SubmissionStatistic {
+  challengeId: Int
+  createdByUsername: String
+  id: ID!
+  info: JSON
+  languageId: String
+  lastSubmitTime: Date!
+  score: Int!
+  submitCount: Int!
+}
+
+input SubmissionStatisticCreatedByIdChallengeIdCompoundUniqueInput {
+  challengeId: Int!
+}
+
+type SubmissionStatisticMutations {
+  removeSubmissionStatistic(where: SubmissionStatisticWhereUniqueInput!): SubmissionStatistic!
+}
+
+input SubmissionStatisticOrderByWithRelationInput {
+  challengeId: SortOrder
+  id: SortOrder
+  info: SortOrder
+  languageId: SortOrder
+  lastSubmitTime: SortOrder
+  score: SortOrder
+  submitCount: SortOrder
+}
+
+enum SubmissionStatisticScalarFieldEnum {
+  challengeId
+  createdById
+  createdByUsername
+  domainId
+  id
+  info
+  languageId
+  lastSubmitTime
+  score
+  submitCount
+}
+
+input SubmissionStatisticWhereInput {
+  AND: [SubmissionStatisticWhereInput!]
+  NOT: [SubmissionStatisticWhereInput!]
+  OR: [SubmissionStatisticWhereInput!]
+  challengeId: Int
+  id: Int
+  info: JsonNullableFilter
+  languageId: String
+  lastSubmitTime: Date
+  score: Int
+  submitCount: Int
+}
+
+input SubmissionStatisticWhereUniqueInput {
+  createdById_challengeId: SubmissionStatisticCreatedByIdChallengeIdCompoundUniqueInput
+  id: Int
+}
+
+input SubmissionWhereInput {
+  AND: [SubmissionWhereInput!]
+  NOT: [SubmissionWhereInput!]
+  OR: [SubmissionWhereInput!]
+  challengeId: Int
+  content: String
+  createdAt: Date
+  id: Int
+  info: JsonNullableFilter
+  ip: String
+  languageId: String
+  result: JsonNullableFilter
+  shared: Boolean
+}
+
+input SubmissionWhereUniqueInput {
+  id: Int
+}
+
+type TopicTag {
+  _count: TopicTagCount!
+  challenges: [Challenge!]
+  id: ID!
+  name: String!
+  slug: String!
+  status: String!
+}
+
+type TopicTagCount {
+  challenges: Int!
+}
+
+input TopicTagCreateNestedManyWithoutChallengesInput {
+  connect: [TopicTagWhereUniqueInput!]
+  connectOrCreate: [TopicTagCreateOrConnectWithoutChallengesInput!]
+  create: [TopicTagCreateWithoutChallengesInput!]
+}
+
+input TopicTagCreateOrConnectWithoutChallengesInput {
+  create: TopicTagCreateWithoutChallengesInput!
+  where: TopicTagWhereUniqueInput!
+}
+
+input TopicTagCreateWithoutChallengesInput {
+  name: String!
+  slug: String
+  status: String
+}
+
+input TopicTagListRelationFilter {
+  every: TopicTagWhereInput
+  none: TopicTagWhereInput
+  some: TopicTagWhereInput
+}
+
+input TopicTagOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TopicTagScalarWhereInput {
+  AND: [TopicTagScalarWhereInput!]
+  NOT: [TopicTagScalarWhereInput!]
+  OR: [TopicTagScalarWhereInput!]
+  id: Int
+  name: String
+  slug: String
+  status: String
+}
+
+input TopicTagUpdateManyMutationInput {
+  name: String
+  slug: String
+  status: String
+}
+
+input TopicTagUpdateManyWithWhereWithoutChallengesInput {
+  data: TopicTagUpdateManyMutationInput!
+  where: TopicTagScalarWhereInput!
+}
+
+input TopicTagUpdateManyWithoutChallengesNestedInput {
+  connect: [TopicTagWhereUniqueInput!]
+  connectOrCreate: [TopicTagCreateOrConnectWithoutChallengesInput!]
+  create: [TopicTagCreateWithoutChallengesInput!]
+  delete: [TopicTagWhereUniqueInput!]
+  deleteMany: [TopicTagScalarWhereInput!]
+  disconnect: [TopicTagWhereUniqueInput!]
+  set: [TopicTagWhereUniqueInput!]
+  update: [TopicTagUpdateWithWhereUniqueWithoutChallengesInput!]
+  updateMany: [TopicTagUpdateManyWithWhereWithoutChallengesInput!]
+  upsert: [TopicTagUpsertWithWhereUniqueWithoutChallengesInput!]
+}
+
+input TopicTagUpdateWithWhereUniqueWithoutChallengesInput {
+  data: TopicTagUpdateWithoutChallengesInput!
+  where: TopicTagWhereUniqueInput!
+}
+
+input TopicTagUpdateWithoutChallengesInput {
+  name: String
+  slug: String
+  status: String
+}
+
+input TopicTagUpsertWithWhereUniqueWithoutChallengesInput {
+  create: TopicTagCreateWithoutChallengesInput!
+  update: TopicTagUpdateWithoutChallengesInput!
+  where: TopicTagWhereUniqueInput!
+}
+
+input TopicTagWhereInput {
+  AND: [TopicTagWhereInput!]
+  NOT: [TopicTagWhereInput!]
+  OR: [TopicTagWhereInput!]
+  challenges: ChallengeListRelationFilter
+  id: Int
+  name: String
+  slug: String
+  status: String
+}
+
+input TopicTagWhereUniqueInput {
+  id: Int
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  avatar: String
+  createdAt: Date!
+  createdByName: String
+  createdByUsername: String
+  email: String!
+  extendData: JSON
+  firstname: String!
+  id: ID!
+  lastname: String!
+  provider: String!
+  role: String!
+  status: String!
+  updatedAt: Date
+  username: String!
+}
+
+input UserCreateInput {
+  avatar: String
+  createdByName: String
+  email: String
+  extendData: JSON
+  firstname: String
+  lastname: String
+  password: String
+  provider: String
+  role: String
+  status: String
+  username: String
+}
+
+input UserEmailDomainIdCompoundUniqueInput {
+  email: String!
+}
+
+type UserMutations {
+  createUser(data: UserCreateInput!): User!
+  removeUser(id: Int!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+input UserOrderByWithRelationInput {
+  avatar: SortOrder
+  createdByName: SortOrder
+  email: SortOrder
+  extendData: SortOrder
+  firstname: SortOrder
+  id: SortOrder
+  lastname: SortOrder
+  password: SortOrder
+  provider: SortOrder
+  role: SortOrder
+  status: SortOrder
+  username: SortOrder
+}
+
+type UserPublic {
+  createdAt: Date!
+  email: String!
+  firstname: String!
+  lastname: String!
+  username: String!
+}
+
+enum UserScalarFieldEnum {
+  avatar
+  createdAt
+  createdById
+  createdByName
+  createdByUsername
+  domainId
+  email
+  extendData
+  firstname
+  id
+  lastname
+  password
+  provider
+  role
+  status
+  updatedAt
+  username
+}
+
+input UserUpdateInput {
+  avatar: String
+  createdByName: String
+  email: String
+  extendData: JSON
+  firstname: String
+  lastname: String
+  password: String
+  provider: String
+  role: String
+  status: String
+  username: String
+}
+
+input UserUsernameDomainIdCompoundUniqueInput {
+  username: String!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  avatar: String
+  createdByName: String
+  email: String
+  extendData: JsonNullableFilter
+  firstname: String
+  id: Int
+  lastname: String
+  password: String
+  provider: String
+  role: String
+  status: String
+  username: String
+}
+
+input UserWhereUniqueInput {
+  email_domainId: UserEmailDomainIdCompoundUniqueInput
+  id: Int
+  username_domainId: UserUsernameDomainIdCompoundUniqueInput
+}
+
+type Vote {
+  userId: Int
+  vote: Int
+}

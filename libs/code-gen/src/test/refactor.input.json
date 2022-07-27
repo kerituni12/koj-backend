@@ -1,0 +1,26 @@
+{
+  "name": "a",
+  "inputs": [
+    { "name": "a", "type": "INTEGER", "comment": "s" },
+    { "name": "ab", "type": "INTEGER", "comment": "s" },
+    {
+      "type": "INTEGER",
+      "name": "size",
+      "comment": "size"
+    }
+  ],
+  "structs": [
+    {
+      "name": "a struct",
+      "comment": "A struct for the example",
+      "fields": [
+        {
+          "type": "ARRAY[INTEGER]",
+          "name": "listt",
+          "comment": "an listt"
+        }
+      ]
+    }
+  ],
+  "output": { "type": "INTEGER", "name": "output" }
+}

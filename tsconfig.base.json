@@ -1,0 +1,80 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "allowJs": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@koj/adapter": [
+        "libs/adapter/src/index.ts"
+      ],
+      "@koj/code-executor": [
+        "libs/code-executor/src/index.ts"
+      ],
+      "@koj/code-gen": [
+        "libs/code-gen/src/index.ts"
+      ],
+      "@koj/common/constants": [
+        "libs/common/constants/src/index.ts"
+      ],
+      "@koj/common/dto": [
+        "libs/common/dto/src/index.ts"
+      ],
+      "@koj/common/exceptions": [
+        "libs/common/exceptions/src/index.ts"
+      ],
+      "@koj/common/guards": [
+        "libs/common/guards/src/index.ts"
+      ],
+      "@koj/common/interfaces": [
+        "libs/common/interfaces/src/index.ts"
+      ],
+      "@koj/common/strategies": [
+        "libs/common/strategies/src/index.ts"
+      ],
+      "@koj/common/utils": [
+        "libs/common/utils/src/index.ts"
+      ],
+      "@koj/elastic-apm-nestjs": [
+        "libs/elastic-apm-nestjs/src/index.ts"
+      ],
+      "@koj/generated/*": [
+        "generated/*"
+      ],
+      "@koj/instrumentation": [
+        "libs/instrumentation/src/index.ts"
+      ],
+      "@koj/kafka": [
+        "libs/kafka/src/index.ts"
+      ],
+      "@koj/test": [
+        "libs/test/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ],
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
+}

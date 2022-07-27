@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/apps/koj/src/modules/casbin/policy.guard.ts",
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "node-terminal",
+      "name": "Koj Serve",
+      "request": "launch",
+      "command": "nx serve koj",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

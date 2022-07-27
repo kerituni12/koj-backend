@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "types": [
+      "node"
+    ],
+    "target": "es6"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    },
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
+}

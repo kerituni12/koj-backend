@@ -1,0 +1,183 @@
+import * as casbin from 'casbin';
+import { Reflector } from '@nestjs/core';
+import { PrismaService } from 'nestjs-prisma';
+import { GqlExecutionContext } from '@nestjs/graphql';
+import { ForbiddenException, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/common';
+
+import { User } from '@koj/generated/user/user.model';
+import { Permission } from '@koj/common/interfaces';
+import { CasbinModuleOptions } from '@koj/common/interfaces';
+import {
+  ADAPTER_ENFORCER,
+  ADAPTER_MODULE_OPTIONS,
+  PERMISSIONS_METADATA,
+} from '@koj/common/constants';
+import { ForbiddenError } from 'apollo-server-express';
+import { trace, context as otelContext } from '@opentelemetry/api';
+import { UserCustom } from '@koj/common/interfaces';
+
+@Injectable()
+export class GqlPolicyGuard implements CanActivate {
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly prisma: PrismaService,
+    @Inject(ADAPTER_ENFORCER) private enforcer: casbin.Enforcer,
+    @Inject(ADAPTER_MODULE_OPTIONS) private options: CasbinModuleOptions,
+  ) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const span = trace.getSpan(otelContext.active());
+    const gqlContext = GqlExecutionContext.create(context);
+
+    const permissions: Permission[] = this.reflector.get<Permission[]>(
+      PERMISSIONS_METADATA,
+      gqlContext.getHandler(),
+    );
+
+    if (!permissions) {
+      return true;
+    }
+
+    const request = gqlContext.getContext().req;
+    const gqlContextArgs = gqlContext.getArgs();
+
+    if (!request.user.role) {
+      throw new ForbiddenError('User no have role');
+    }
+
+    const hasPermission = async (
+      user: User,
+      permission: Permission,
+    ): Promise<boolean> => {
+      const { resource, action, noUniqueInput } = permission;
+
+      // console.log(await this.enforcer.getPolicy());
+      const [isAllow, policy] = await this.enforcer.enforceEx(
+        { role: user.role },
+        resource,
+        action,
+        user.domainId,
+      );
+
+      if (!isAllow) {
+        throw new ForbiddenException({
+          message: `Don't have permission`,
+          statusCode: HttpStatus.FORBIDDEN,
+        });
+      }
+
+      if (policy.length !== 0) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [subject, object, action, effect, effectWith] = policy;
+
+        if (effectWith === 'owner') {
+          const attachCtxWhere = {
+            createdById: (<UserCustom>user).userId,
+            domainId: user.domainId,
+          };
+
+          if (noUniqueInput) {
+            gqlContextArgs.where
+              ? Object.assign(gqlContextArgs.where, attachCtxWhere)
+              : Object.assign(gqlContextArgs, { where: attachCtxWhere });
+          } else {
+            // Don't mutate graphql where context,prisma unique input only allow unique input data
+            const whereCondition = Object.assign(
+              {},
+              gqlContextArgs.where,
+              attachCtxWhere,
+            );
+
+            const resultCheck = await this.prisma[resource].findFirst({
+              where: whereCondition,
+              select: { id: true },
+            });
+
+            if (typeof resultCheck === 'undefined') {
+              throw new UnauthorizedException('result check false');
+            }
+          }
+
+          if (action === 'create' || action === 'update') {
+            this.attackMutationData(gqlContextArgs, user);
+          }
+
+          return true;
+        }
+
+        if (effectWith === 'organize') {
+          const attachCtxWhere = {
+            domainId: user.domainId,
+          };
+
+          if (noUniqueInput) {
+            gqlContextArgs.where
+              ? Object.assign(gqlContextArgs.where, attachCtxWhere)
+              : Object.assign(gqlContextArgs, { where: attachCtxWhere });
+          }
+
+          if (action === 'create' || action === 'edit') {
+            this.attackMutationData(gqlContextArgs, user);
+          }
+
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    const result = await GqlPolicyGuard.asyncEvery<Permission>(
+      permissions,
+      async (permission) => hasPermission(request.user, permission),
+    );
+
+    return result;
+  }
+
+  attackMutationData(gqlContextArgs: any, user: UserCustom) {
+    const attachCtxData = {
+      createdById: user.userId,
+      domainId: user.domainId,
+      createdByUsername: user.username,
+      createdByName: `${user.firstname}:${user.lastname}`,
+    };
+
+    if (Array.isArray(gqlContextArgs.data)) {
+      gqlContextArgs.data.forEach((data: object) => {
+        Object.assign(data, attachCtxData);
+      });
+    } else {
+      Object.assign(gqlContextArgs.data, attachCtxData);
+    }
+  }
+
+  static async asyncSome<T>(
+    array: T[],
+    callback: (value: T, index: number, a: T[]) => Promise<boolean>,
+  ): Promise<boolean> {
+    for (let i = 0; i < array.length; i++) {
+      const result = await callback(array[i], i, array);
+      if (result) {
+        return result;
+      }
+    }
+
+    return false;
+  }
+
+  static async asyncEvery<T>(
+    array: T[],
+    callback: (value: T, index: number, a: T[]) => Promise<boolean>,
+  ): Promise<boolean> {
+    for (let i = 0; i < array.length; i++) {
+      const result = await callback(array[i], i, array);
+      if (!result) {
+        return result;
+      }
+    }
+
+    return true;
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "module": "commonjs",
+    "allowJs": true,
+    "types": ["node"],
+    "emitDecoratorMetadata": true,
+    "target": "es2015",
+    "composite": true,
+    "declaration": true
+  },
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.json",
+    "../../libs/common/constants/src/**/*.ts",
+    "../../libs/common/guards/src/**/*.ts",
+    "../../libs/common/interfaces/src/**/*.ts",
+    "../../libs/common/strategies/src/**/*.ts",
+    "../../libs/common/exceptions/src/**/*.ts",
+    "../../libs/common/utils/src/**/*.ts",
+    "../../libs/common/dto/src/**/*.ts",
+    "../../generated/**/*.ts",
+    "../../libs/adapter/src/**/*.ts",
+    "../../libs/instrumentation/src/**/*.ts",
+    "../../libs/code-gen/src/**/*.ts",
+    "../../libs/code-executor/src/**/*.ts",
+    "../../libs/code-executor/src/**/*.js",
+    "../../libs/code-gen/src/**/*.json",
+    "../../libs/code-gen/src/test/javascript/custom.js" // "../../libs/*/src/**/*.ts"
+    // "../../libs/elastic-apm-nestjs/**/*.ts"
+  ]
+}

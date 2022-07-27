@@ -1,0 +1,43 @@
+{
+  "name": "custom",
+  "structs": [
+    {
+      "name": "a struct",
+      "comment": "A struct for the example",
+      "fields": [
+        {
+          "type": "ARRAY[INTEGER]",
+          "name": "listt",
+          "comment": "an listt"
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "type": "INTEGER",
+      "name": "size",
+      "comment": "size"
+    },
+    {
+      "type": "OBJECT{A STRUCT}",
+      "name": "a struct",
+      "comment": "a struct"
+    },
+    {
+      "type": "INTEGER",
+      "name": "sizex",
+      "comment": "sizex"
+    },
+    {
+      "type": "ARRAY[ARRAY[INTEGER]]",
+      "name": "list",
+      "comment": "a list of structs"
+    }
+  ],
+  "output": {
+    "type": "OBJECT[A STRUCT]",
+    "name": "output",
+    "comment": "a list of structs"
+  }
+}

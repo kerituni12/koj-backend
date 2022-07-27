@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "casbin-adapter": {
+      "type": "library",
+      "root": "libs/casbin-adapter",
+      "entryFile": "index",
+      "sourceRoot": "libs/casbin-adapter/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/casbin-adapter/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}

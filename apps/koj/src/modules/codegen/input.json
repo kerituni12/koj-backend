@@ -1,0 +1,17 @@
+{
+  "functionName": "hello",
+  "inputs": [
+    {
+      "type": "int",
+      "name": "n"
+    },
+    {
+      "type": "list",
+      "name": "listname",
+      "encapsulated": { "type": "string" },
+      "size": "n"
+    }
+  ],
+  "structs": {},
+  "outputs": { "type": "list", "encapsulated": { "type": "int" } }
+}
