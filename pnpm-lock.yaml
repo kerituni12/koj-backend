@@ -75,6 +75,7 @@ specifiers:
   graphql-iso-date: ^3.6.1
   graphql-scalars: ^1.14.1
   graphql-type-json: ^0.3.2
+  graphql15: npm:graphql@^15.8.0
   i: ^0.3.7
   ioredis: ^5.0.6
   jest: 27.2.3
@@ -168,6 +169,7 @@ dependencies:
   graphql-iso-date: 3.6.1_graphql@15.8.0
   graphql-scalars: 1.17.0_graphql@15.8.0
   graphql-type-json: 0.3.2_graphql@15.8.0
+  graphql15: /graphql/15.8.0
   i: 0.3.7
   ioredis: 5.2.2
   kafkajs: 2.1.0
