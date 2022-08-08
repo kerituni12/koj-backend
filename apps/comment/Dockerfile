@@ -6,8 +6,6 @@ FROM arm64v8/node:16-alpine As base
 
 WORKDIR /app
 
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
-
 RUN npm i -g pnpm@7
 
 ###################
@@ -16,7 +14,9 @@ RUN npm i -g pnpm@7
 
 FROM base as build
 
-COPY .npmrc pnpm-lock.yaml package*.json ./
+COPY .npmrc pnpm-lock.yaml package.json ./
+
+RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store\
     pnpm install --frozen-lockfile

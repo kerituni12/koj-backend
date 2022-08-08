@@ -19,10 +19,10 @@ spec:
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
-            - containerPort: 3004
+            - containerPort: {{ .Values.app.port}}
           env:
             - name: PORT
-              value: "3004"
+              value: {{ .Values.app.port}}
             - name: NATS_URL
               value: "nats://nats:4222"
             - name: MONGO_URL
