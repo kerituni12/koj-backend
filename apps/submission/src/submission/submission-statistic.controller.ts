@@ -1,4 +1,4 @@
-import { Controller, UseFilters } from "@nestjs/common";
+import { Controller, UseFilters } from '@nestjs/common';
 
 import {
   Client,
@@ -6,13 +6,13 @@ import {
   Transport,
   ClientProxy,
   MessagePattern
-} from "@nestjs/microservices";
+} from '@nestjs/microservices';
 
-import { SUBMISSION_STATISTIC_FIND_MANY } from "@koj/common/constants";
-import { Span } from "@koj/instrumentation";
-import { RpcPrismaExceptionFilter } from "@koj/common/exceptions";
+import { SUBMISSION_STATISTIC_FIND_MANY } from '@koj/common/constants';
+import { Span } from '@koj/instrumentation';
+import { RpcPrismaExceptionFilter } from '@koj/common/exceptions';
 
-import { SubmissionStatisticService } from "./submission-statistic.service";
+import { SubmissionStatisticService } from './submission-statistic.service';
 
 @UseFilters(RpcPrismaExceptionFilter)
 @Controller()
@@ -20,8 +20,8 @@ export class SubmissionStatisticController {
   @Client({
     transport: Transport.NATS,
     options: {
-      queue: "submissionStatistic_queue",
-      servers: ["nats://localhost:4222"]
+      queue: 'submissionStatistic_queue',
+      servers: [process.env.NATS_URL]
     }
   })
   client: ClientProxy;

@@ -1,13 +1,18 @@
 import { TraceService } from 'nestjs-otel';
 
-import { UsePipes, Controller, ValidationPipe, UseFilters } from '@nestjs/common';
+import {
+  UsePipes,
+  Controller,
+  ValidationPipe,
+  UseFilters
+} from '@nestjs/common';
 
 import {
   Client,
   Payload,
   Transport,
   ClientProxy,
-  MessagePattern,
+  MessagePattern
 } from '@nestjs/microservices';
 
 import {
@@ -15,7 +20,7 @@ import {
   ROLE_FIND_MANY,
   ROLE_DELETE,
   ROLE_UPDATE,
-  ROLE_FIND_UNIQUE,
+  ROLE_FIND_UNIQUE
 } from '@koj/common/constants';
 import { Span } from '@koj/instrumentation';
 
@@ -29,8 +34,8 @@ export class AppController {
     transport: Transport.NATS,
     options: {
       queue: 'role_queue',
-      servers: ['nats://localhost:4222'],
-    },
+      servers: [process.env.NATS_URL]
+    }
   })
   client: ClientProxy;
 

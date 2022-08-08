@@ -3,7 +3,7 @@ import {
   Controller,
   ValidationPipe,
   UseFilters
-} from "@nestjs/common";
+} from '@nestjs/common';
 
 import {
   Client,
@@ -12,7 +12,7 @@ import {
   ClientProxy,
   RpcException,
   MessagePattern
-} from "@nestjs/microservices";
+} from '@nestjs/microservices';
 
 import {
   SUBMISSION_CREATE,
@@ -20,11 +20,11 @@ import {
   SUBMISSION_FIND_UNIQUE,
   SUBMISSION_SUBMIT,
   SUBMISSION_FIND_MANY_BY_USER
-} from "@koj/common/constants";
-import { Span } from "@koj/instrumentation";
-import { RpcPrismaExceptionFilter } from "@koj/common/exceptions";
+} from '@koj/common/constants';
+import { Span } from '@koj/instrumentation';
+import { RpcPrismaExceptionFilter } from '@koj/common/exceptions';
 
-import { SubmissionService } from "./submission.service";
+import { SubmissionService } from './submission.service';
 
 @UseFilters(RpcPrismaExceptionFilter)
 @Controller()
@@ -32,8 +32,8 @@ export class SubmissionController {
   @Client({
     transport: Transport.NATS,
     options: {
-      queue: "submission_queue",
-      servers: ["nats://localhost:4222"]
+      queue: 'submission_queue',
+      servers: [process.env.NATS_URL]
     }
   })
   client: ClientProxy;

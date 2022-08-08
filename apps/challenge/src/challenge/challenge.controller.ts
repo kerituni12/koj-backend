@@ -1,11 +1,11 @@
-import { TraceService } from "nestjs-otel";
+import { TraceService } from 'nestjs-otel';
 
 import {
   UsePipes,
   Controller,
   ValidationPipe,
   UseFilters
-} from "@nestjs/common";
+} from '@nestjs/common';
 
 import {
   Client,
@@ -13,7 +13,7 @@ import {
   Transport,
   ClientProxy,
   MessagePattern
-} from "@nestjs/microservices";
+} from '@nestjs/microservices';
 
 import {
   CHALLENGE_CREATE,
@@ -24,12 +24,12 @@ import {
   CHALLENGE_SUBMIT,
   CHALLENGE_FIND_MANY_PUBLIC,
   CHALLENGE_FIND_UNIQUE_PUBLIC
-} from "@koj/common/constants";
-import { Span } from "@koj/instrumentation";
+} from '@koj/common/constants';
+import { Span } from '@koj/instrumentation';
 
-import { ChallengeService } from "./challenge.service";
-import { RpcPrismaExceptionFilter } from "@koj/common/exceptions";
-import { RpcException } from "@nestjs/microservices";
+import { ChallengeService } from './challenge.service';
+import { RpcPrismaExceptionFilter } from '@koj/common/exceptions';
+import { RpcException } from '@nestjs/microservices';
 
 @UseFilters(RpcPrismaExceptionFilter)
 @Controller()
@@ -37,8 +37,8 @@ export class AppController {
   @Client({
     transport: Transport.NATS,
     options: {
-      queue: "challenge_queue",
-      servers: ["nats://localhost:4222"]
+      queue: 'challenge_queue',
+      servers: [process.env.NATS_URL]
     }
   })
   client: ClientProxy;

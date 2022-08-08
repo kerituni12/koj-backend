@@ -15,16 +15,18 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.NATS,
     options: {
-      servers: ['nats://localhost:4222'],
-      queue: 'challenge_queue',
-    },
+      servers: [process.env.NATS_URL],
+      queue: 'challenge_queue'
+    }
   });
 
   await app.startAllMicroservices();
 
   const port = 4001;
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+  Logger.log(
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+  );
 }
 
 bootstrap();

@@ -1,4 +1,4 @@
-import { TraceService } from "nestjs-otel";
+import { TraceService } from 'nestjs-otel';
 
 import {
   COMMENT_VOTE,
@@ -6,7 +6,7 @@ import {
   COMMENT_CREATE,
   COMMENT_FIND_MANY_BY_ID,
   COMMENT_DELETE
-} from "@koj/common/constants";
+} from '@koj/common/constants';
 
 import {
   Post,
@@ -17,7 +17,7 @@ import {
   Controller,
   ValidationPipe,
   UseInterceptors
-} from "@nestjs/common";
+} from '@nestjs/common';
 
 import {
   Ctx,
@@ -27,16 +27,16 @@ import {
   NatsContext,
   ClientProxy,
   MessagePattern
-} from "@nestjs/microservices";
+} from '@nestjs/microservices';
 
-import { Span } from "@koj/instrumentation";
-import { TraceInterceptor } from "@koj/instrumentation";
-import { AllRpcExceptionFilter } from "@koj/common/exceptions";
+import { Span } from '@koj/instrumentation';
+import { TraceInterceptor } from '@koj/instrumentation';
+import { AllRpcExceptionFilter } from '@koj/common/exceptions';
 
-import { CommentService } from "./comment.service";
-import { CommentCreateDto } from "../dto/comment.dto";
-import { CommentVoteDto } from "../dto/comment-vote.dto";
-import { CommentPayload, VotePayload } from "./comment.interface";
+import { CommentService } from './comment.service';
+import { CommentCreateDto } from '../dto/comment.dto';
+import { CommentVoteDto } from '../dto/comment-vote.dto';
+import { CommentPayload, VotePayload } from './comment.interface';
 
 @UseInterceptors(TraceInterceptor)
 @UseFilters(AllRpcExceptionFilter)
@@ -45,8 +45,8 @@ export class CommentController {
   @Client({
     transport: Transport.NATS,
     options: {
-      queue: "comment_queue",
-      servers: ["nats://localhost:4222"]
+      queue: 'comment_queue',
+      servers: [process.env.NATS_URL]
     }
   })
   client: ClientProxy;
@@ -106,15 +106,15 @@ export class CommentController {
   /**
    * HTTP
    */
-  @Post("/vote")
+  @Post('/vote')
   vote(@Body() body: VotePayload) {
     return this.commentService.vote(body);
   }
-  @Post("/delete")
+  @Post('/delete')
   remove(@Body() body) {
     return this.commentService.remove(body._id);
   }
-  @Post("/unvote")
+  @Post('/unvote')
   unvote(@Body() body: VotePayload) {
     return this.commentService.unVote(body);
   }
@@ -140,8 +140,8 @@ export class CommentController {
       depth: 0,
       // challengeId: 1,
       author: { id: 1 },
-      content: "hello dsafdsf dasf",
-      parentId: "62b5644da23a6e8a3f82150d",
+      content: 'hello dsafdsf dasf',
+      parentId: '62b5644da23a6e8a3f82150d',
       domainId: 1
     };
     const result = this.client.send(COMMENT_CREATE, comment);
@@ -149,9 +149,9 @@ export class CommentController {
     return result;
   }
 
-  @Post("/:id")
+  @Post('/:id')
   @UsePipes(new ValidationPipe({ transform: true }))
-  getCommentById(@Param("id") id: number, @Body() body) {
+  getCommentById(@Param('id') id: number, @Body() body) {
     return this.commentService.getCommentById({
       parentId: body.parentId,
       userId: body.userId,

@@ -1,22 +1,22 @@
 // import './tracing';
 
-import { Logger } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import { MicroserviceOptions, Transport } from "@nestjs/microservices";
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-import { AppModule } from "./submission/submission.module";
+import { AppModule } from './submission/submission.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const globalPrefix = "submission";
+  const globalPrefix = 'submission';
   app.setGlobalPrefix(globalPrefix);
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.NATS,
     options: {
-      servers: ["nats://localhost:4222"],
-      queue: "submission_queue"
+      servers: [process.env.NATS_URL],
+      queue: 'submission_queue'
     }
   });
 

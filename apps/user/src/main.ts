@@ -1,22 +1,22 @@
 // import './tracing';
 
-import { Logger } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import { MicroserviceOptions, Transport } from "@nestjs/microservices";
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-import { UserModule } from "./user/user.module";
+import { UserModule } from './user/user.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(UserModule);
 
-  const globalPrefix = "users";
+  const globalPrefix = 'users';
   app.setGlobalPrefix(globalPrefix);
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.NATS,
     options: {
-      servers: ["nats://localhost:4222"],
-      queue: "user_queue"
+      servers: [process.env.NATS_URL],
+      queue: 'user_queue'
     }
   });
 
