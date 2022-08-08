@@ -5,16 +5,12 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/comment",
         "main": "apps/comment/src/main.ts",
         "tsConfig": "apps/comment/tsconfig.app.json",
-        "assets": [
-          "apps/comment/src/assets"
-        ]
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -38,20 +34,14 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/comment/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/comment/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/comment"
-      ],
+      "outputs": ["coverage/apps/comment"],
       "options": {
         "jestConfig": "apps/comment/jest.config.js",
         "passWithNoTests": true

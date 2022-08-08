@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import {
   Controller,
   Post,
@@ -7,19 +8,21 @@ import {
   Get,
   Req,
   Res
-} from "@nestjs/common";
-import { User } from "@prisma/client";
-import { UserService } from "../user/user.service";
-import { AuthService } from "./auth.service";
+} from '@nestjs/common';
+
+import { User } from '@koj/generated/user/user.model';
+
 import {
   GithubGuard,
   JwtRefreshGuard,
   LocalAuthGuard
-} from "@koj/common/guards";
-import { Request } from "express";
-import { PermissionService } from "../casbin/permission/permission.service";
-import { GoogleService } from "./provider/google.service";
-import { GithubService } from "./provider/github.service";
+} from '@koj/common/guards';
+
+import { AuthService } from './auth.service';
+import { UserService } from '../user/user.service';
+import { GoogleService } from './provider/google.service';
+import { GithubService } from './provider/github.service';
+import { PermissionService } from '../casbin/permission/permission.service';
 
 export interface UserCustom extends User {
   userId?: number;
@@ -31,7 +34,7 @@ export interface RequestWithUser extends Request {
   user: User;
 }
 
-@Controller("auth")
+@Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
@@ -50,13 +53,13 @@ export class AuthController {
   @HttpCode(200)
   // @UseGuards(EmailConfirmGuard)
   @UseGuards(LocalAuthGuard)
-  @Post("login")
+  @Post('login')
   async logIn(@Req() request: RequestWithUser) {
     const { user } = request;
     return this.authService.login(user, request);
   }
 
-  @Get("refresh")
+  @Get('refresh')
   @UseGuards(JwtRefreshGuard)
   async refresh(@Req() request: RequestWithUser) {
     const $user = request.user as UserCustom;
@@ -69,9 +72,9 @@ export class AuthController {
     );
 
     const [accessTokenHeader, accessTokenPayload, accessTokenSignature] =
-      accessToken.split(".");
+      accessToken.split('.');
     const [refreshTokenHeader, refreshTokenPayload, refreshTokenSignature] =
-      refreshToken.split(".");
+      refreshToken.split('.');
 
     const accessTokenCookieOptions =
       this.authService.getJwtAccessTokenOptions();
@@ -79,18 +82,18 @@ export class AuthController {
       this.authService.getJwtRefreshTokenOptions();
 
     request.res.cookie(
-      "a_sign",
+      'a_sign',
       accessTokenSignature,
       accessTokenCookieOptions
     );
     request.res.cookie(
-      "r_sign",
+      'r_sign',
       refreshTokenSignature,
       refreshTokenCookieOptions
     );
-    request.res.cookie("a_header", accessTokenHeader, accessTokenCookieOptions);
+    request.res.cookie('a_header', accessTokenHeader, accessTokenCookieOptions);
     request.res.cookie(
-      "r_header",
+      'r_header',
       refreshTokenHeader,
       refreshTokenCookieOptions
     );
@@ -101,12 +104,12 @@ export class AuthController {
     };
   }
 
-  @Post("google")
+  @Post('google')
   async googleAuth(@Body() data, @Req() request) {
     return this.googleService.authWithGoogle(data, request);
   }
 
-  @Get("github/callback")
+  @Get('github/callback')
   @UseGuards(GithubGuard)
   async githubAuthRedirect(@Req() req: Request) {
     // return req.user;

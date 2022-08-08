@@ -1,0 +1,89 @@
+model Policy {
+    id                Int       @id @default(autoincrement())
+    /// @HideField({input: true, output:true})
+    ptype             String    @default("p")
+    subject           String    @default("none")
+    object            String    @default("none")
+    action            String    @default("none")
+    effect            String    @default("allow")
+    effectWith        String    @default("organize") @map("effect_with")
+    condition         String?
+    /// @HideField({input: true, output:true})
+    domainId          Int       @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById       Int?      @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername String?   @map("created_by_username")
+    createdByName     String?   @map("created_by_name")
+    /// @HideField({input: true})
+    createdAt         DateTime  @default(now()) @map("created_at")
+    /// @HideField({input: true})
+    updatedAt         DateTime? @map("updated_at")
+
+    // updatedById   Int?      @map("updated_by_id")
+    // updatedByName String?   @map("updated_by_name")
+
+    @@index([createdByUsername])
+    @@map("casbin_policy")
+}
+
+model Group {
+    id                Int       @id @default(autoincrement())
+    name              String    @default("none")
+    key               String    @default("none")
+    status            String    @default("disabled")
+    description       String?
+    /// @HideField({input: true, output:true})
+    domainId          Int       @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById       Int?      @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername String?   @map("created_by_username")
+    createdByName     String?   @map("created_by_name")
+    /// @HideField({input: true})
+    createdAt         DateTime  @default(now()) @map("created_at")
+    /// @HideField({input: true})
+    updatedAt         DateTime? @map("updated_at")
+
+    // updatedById   Int?      @map("updated_by_id")
+    // updatedByName String?   @map("updated_by_name")
+
+    @@index([createdByUsername])
+    @@map("group")
+}
+
+model Role {
+    id                Int       @id @default(autoincrement())
+    // @HideField({input: true})
+    key               String    @default("none")
+    name              String    @default("none")
+    description       String?
+    /// @HideField({input: true, output:true})
+    domainId          Int       @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById       Int?      @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername String?   @map("created_by_username")
+    createdByName     String?   @map("created_by_name")
+    /// @HideField({input: true})
+    createdAt         DateTime  @default(now()) @map("created_at")
+    /// @HideField({input: true})
+    updatedAt         DateTime? @map("updated_at")
+
+    // updatedById   Int?      @map("updated_by_id")
+    // updatedByName String?   @map("updated_by_name")
+
+    @@index([createdByUsername])
+    @@map("role")
+}
+
+model RoleGroup {
+    id       Int     @id @default(autoincrement())
+    ptype    String  @default("g")
+    role     String?
+    rule     String?
+    /// @HideField({input: true, output:true})
+    domainId Int     @default(0) @map("domain_id")
+
+    @@map("casbin_role")
+}

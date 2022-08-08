@@ -1,4 +1,5 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { User } from '@koj/generated/user/user.model';
 
 export const permissionQuery = (user: User) => Prisma.sql`
   with permissions as (

@@ -1,15 +1,16 @@
-import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
-import { InjectConnection, InjectModel } from "@nestjs/mongoose";
-import { RpcException } from "@nestjs/microservices";
-import * as mongoose from "mongoose";
+import mongodb from 'mongodb';
+import { Model } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 
-import { CommentCreateDto } from "../dto/comment.dto";
-import { CommentVoteDto } from "../dto/comment-vote.dto";
-import { Comment, CommentDocument } from "../schemas/comment.schema";
-import { CommentPayload } from "./comment.interface";
-import mongodb from "mongodb";
-import { fulfillWithTimeLimit } from "@koj/common/utils";
+import { fulfillWithTimeLimit } from '@koj/common/utils';
+
+import { CommentPayload } from './comment.interface';
+import { CommentCreateDto } from '../dto/comment.dto';
+import { CommentVoteDto } from '../dto/comment-vote.dto';
+import { Comment, CommentDocument } from '../schemas/comment.schema';
 
 @Injectable()
 export class CommentService {
@@ -23,7 +24,7 @@ export class CommentService {
     return new Promise((resolve, reject) => {
       const setTimeOut = setTimeout(async () => {
         await this.connection.close();
-        reject("timeout");
+        reject('timeout');
       }, TIMEOUT);
 
       (async () => {
@@ -32,7 +33,6 @@ export class CommentService {
           clearTimeout(setTimeOut);
         }
 
-        console.log("return ");
         resolve(session);
       })();
     });
@@ -50,11 +50,10 @@ export class CommentService {
       );
 
       if (!session) {
-        throw new Error("cant work");
+        throw new Error('cant work');
       }
 
       await session.withTransaction(async () => {
-        console.log("run with transaction");
         const { domainId, parentId } = comment;
         const bulkOperation: Array<mongodb.AnyBulkWriteOperation> = [
           {
@@ -78,7 +77,7 @@ export class CommentService {
         result = await this.commentModel.bulkWrite(bulkOperation, { session });
 
         if (result.insertedCount !== 1) {
-          throw new Error("create comment fail");
+          throw new Error('create comment fail');
         }
         // if (result.modifiedCount !== 1) {
         //   // Log update count faile
@@ -101,7 +100,7 @@ export class CommentService {
     domainId
   }: CommentPayload) {
     if (!challengeId && !parentId) {
-      throw new RpcException("Must include challengeId or parentId");
+      throw new RpcException('Must include challengeId or parentId');
     }
     try {
       const whereCondition = parentId
@@ -127,10 +126,6 @@ export class CommentService {
         });
       }
 
-      console.log(
-        "🚀 ~ file: comment.service.ts ~ line 112 ~ CommentService ~ result",
-        result
-      );
       return result;
     } catch (error) {
       throw new RpcException(error.message);
@@ -147,16 +142,16 @@ export class CommentService {
             $set: {
               votes: {
                 $cond: [
-                  { $in: [userId, "$votes.userId"] },
+                  { $in: [userId, '$votes.userId'] },
                   {
                     $map: {
-                      input: "$votes",
+                      input: '$votes',
                       in: {
                         $mergeObjects: [
-                          "$$this",
+                          '$$this',
                           {
                             $cond: [
-                              { $eq: ["$$this.userId", userId] },
+                              { $eq: ['$$this.userId', userId] },
                               updateVote,
                               {}
                             ]
@@ -165,10 +160,10 @@ export class CommentService {
                       }
                     }
                   },
-                  { $concatArrays: ["$votes", [updateVote]] }
+                  { $concatArrays: ['$votes', [updateVote]] }
                 ]
               },
-              votePoint: { $sum: ["$votePoint", vote] }
+              votePoint: { $sum: ['$votePoint', vote] }
             }
           }
         ],

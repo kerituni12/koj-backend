@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, Schema as MongooseSchema, Types } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type CommentDocument = Comment & Document;
 
@@ -19,7 +19,7 @@ export class Author {
 
 export class Vote {
   @Prop({ required: true })
-  userId: string;
+  userId: number;
 
   @Prop()
   vote: number;

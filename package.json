@@ -106,6 +106,7 @@
     "@nrwl/node": "13.8.1",
     "@nrwl/tao": "13.8.1",
     "@nrwl/workspace": "13.8.1",
+    "@prisma-utils/prismerge": "^1.6.2",
     "@types/archiver": "^5.3.1",
     "@types/bcrypt": "^5.0.0",
     "@types/bull": "^3.15.8",

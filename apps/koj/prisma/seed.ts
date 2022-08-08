@@ -11,21 +11,21 @@ import { tags } from './data/tag';
 const prisma = new PrismaClient();
 
 async function main() {
-  for (const status$ of status) {
-    await prisma.status.create({
-      data: status$,
-    });
-  }
+  // for (const status$ of status) {
+  //   await prisma.status.create({
+  //     data: status$,
+  //   });
+  // }
   // for (const language of languages) {
   //   await prisma.language.create({
   //     data: language,
   //   });
   // }
-  for (const tag of tags) {
-    await prisma.topicTag.create({
-      data: tag,
-    });
-  }
+  // for (const tag of tags) {
+  //   await prisma.topicTag.create({
+  //     data: tag,
+  //   });
+  // }
   // for (const challenge of challenges) {
   //   await prisma.challenge.create({
   //     data: challenge,

@@ -1,0 +1,8 @@
+image: kerituni12/comment
+pullPolicy: IfNotPresent
+storageClassName: standard
+mongo:
+  url: mongodb://mongodb-replica-0.mongo:27017,mongodb-replica-1.mongo:27017/comments?replicaSet=rs0
+app:
+  name: comment
+  port: 3004

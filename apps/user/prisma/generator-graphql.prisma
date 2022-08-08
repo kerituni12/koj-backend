@@ -1,0 +1,8 @@
+generator nestgraphql {
+    provider                    = "node node_modules/prisma-nestjs-graphql"
+    output                      = "../../../generated"
+    noAtomicOperations          = true
+    purgeOutput                 = true
+    useInputType_WhereInput_ALL = "match:@(Int|String|DateTime|Null|Boolean|Float)"
+    // combineScalarFilters        = true
+}

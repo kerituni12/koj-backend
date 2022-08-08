@@ -14,9 +14,9 @@ export const enforcerProvider = {
     return context.with(trace.setSpan(context.active(), span), async () => {
       const policyAdapter = await AdapterService.newAdapter();
       const e = await casbin.newEnforcer();
-      e.initWithAdapter(path.resolve('apps/koj/model.conf'), policyAdapter);
+      e.initWithAdapter('model.conf', policyAdapter);
       span.end();
       return e;
     });
-  },
+  }
 };

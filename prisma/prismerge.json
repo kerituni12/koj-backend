@@ -1,0 +1,9 @@
+{
+  "app": {
+    "inputs": [
+      "./apps/koj/prisma/placeholder.prisma",
+      "./apps/koj/prisma/p.prisma"
+    ],
+    "output": "./apps/koj/prisma/schema1.prisma"
+  }
+}
