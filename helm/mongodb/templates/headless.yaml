@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongo
-  namespace: mongodb
+  # namespace: mongodb
   labels:
     name: mongo
 spec:
   ports:
     - port: 27017
       targetPort: 27017
-  # clusterIP: None
-  type: LoadBalancer
+  clusterIP: None
+  # type: LoadBalancer
   selector:
     app: mongo
