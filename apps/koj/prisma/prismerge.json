@@ -1,10 +1,6 @@
 {
   "app": {
-    "inputs": [
-      "./apps/koj/prisma/koj.prisma",
-      "./apps/koj/prisma/auth.prisma",
-      "./apps/user/prisma/user-model.prisma"
-    ],
-    "output": "./apps/koj/prisma/_schema.prisma"
+    "inputs": ["koj.prisma", "auth.prisma", "user-model.prisma"],
+    "output": "_schema.prisma"
   }
 }

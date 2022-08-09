@@ -23,6 +23,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store\
 
 COPY . .
 
+RUN cd apps/koj/prisma && npx prismerge -i prismerge.json && npx prisma generate --schema _schema.prisma
 RUN pnpm nx build koj --prod
 
 # ###################
