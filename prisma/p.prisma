@@ -10,5 +10,3 @@ generator nestgraphql {
     useInputType_WhereInput_ALL = "match:@(Int|String|DateTime|Null|Boolean|Float)"
     // combineScalarFilters        = true
 }
-
-sadsad
