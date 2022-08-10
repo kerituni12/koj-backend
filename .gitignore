@@ -42,4 +42,4 @@ Thumbs.db
 # other
 /drap
 helm
-/prisma/p.prisma
+prisma/p.prisma
