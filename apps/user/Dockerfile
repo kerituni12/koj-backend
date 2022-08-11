@@ -34,8 +34,6 @@ FROM node:16-alpine as production
 
 WORKDIR /app
 
-RUN npm i -g pnpm@7
-
 ENV NODE_ENV production
 
 COPY  .npmrc pnpm-lock.yaml ./

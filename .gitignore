@@ -41,5 +41,5 @@ Thumbs.db
 
 # other
 /drap
-helm
+/helm
 /**/_schema.prisma
