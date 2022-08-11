@@ -9,7 +9,8 @@
       "options": {
         "outputPath": "dist/apps/role",
         "main": "apps/role/src/main.ts",
-        "tsConfig": "apps/role/tsconfig.app.json"
+        "tsConfig": "apps/role/tsconfig.app.json",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

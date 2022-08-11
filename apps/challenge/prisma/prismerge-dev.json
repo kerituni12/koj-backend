@@ -1,0 +1,10 @@
+{
+  "app": {
+    "inputs": [
+      "challenge.prisma",
+      "challenge-model.prisma",
+      "../../../prisma/generator-graphql.prisma"
+    ],
+    "output": "_schema.prisma"
+  }
+}

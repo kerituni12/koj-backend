@@ -1,0 +1,64 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Challenge {
+    id                     Int        @id @default(autoincrement())
+    title                  String
+    slug                   String     @default(cuid())
+    acceptedLanguages      Int[]
+    languages              Json?
+    rate                   Float?     @db.Real
+    audience               String     @default("onlyme")
+    functionName           String?
+    /// @HideField({input: true})
+    commentCount           Int?       @map("comment_count")
+    contestId              Int?       @map("contest_id")
+    status                 String     @default("disabled")
+    categoryId             Int?
+    description            String?
+    companyTags            Int[]      @map("company_tags")
+    topicTags              TopicTag[]
+    contributors           Json?
+    examples               Json?
+    inputs                 Json?
+    structs                Json?
+    types                  Json?
+    output                 String
+    highlightSolutionCount Int?       @map("highlight_solution_count")
+    hint                   Json?
+    isFavorited            Boolean    @default(false) @map("is_favorited")
+    officalSolutionCount   Int?       @map("offical_solution_count")
+    testcases              Json?      @map("testcases")
+    difficulty             String     @default("easy")
+    likes                  Int        @default(0)
+    dislikes               Int        @default(0)
+    solutions              Json?
+    /// @HideField({input: true, output:true})
+    domainId               Int        @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById            Int?       @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername      String?    @map("created_by_username")
+    createdByName          String?    @map("created_by_name")
+    /// @HideField({input: true})
+    createdAt              DateTime   @default(now()) @map("created_at")
+    /// @HideField({input: true})
+    updatedAt              DateTime?  @map("updated_at")
+
+    @@unique([slug, domainId])
+    @@map("challenge")
+}
+
+model TopicTag {
+    id         Int         @id @default(autoincrement())
+    name       String
+    slug       String      @default(cuid())
+    status     String      @default("disabled")
+    /// @HideField({input: true, output:true})
+    domainId   Int         @default(0) @map("domain_id")
+    challenges Challenge[]
+
+    @@map("topic_tag")
+}

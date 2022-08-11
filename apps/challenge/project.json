@@ -9,7 +9,8 @@
       "options": {
         "outputPath": "dist/apps/challenge",
         "main": "apps/challenge/src/main.ts",
-        "tsConfig": "apps/challenge/tsconfig.app.json"
+        "tsConfig": "apps/challenge/tsconfig.app.json",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

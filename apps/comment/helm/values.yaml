@@ -1,8 +1,10 @@
 image: kerituni12/comment
-pullPolicy: IfNotPresent
+pullPolicy: Always
 storageClassName: standard
 mongo:
-  url: mongodb://192.168.1.244,192.168.1.245,192.168.1.246/admin?replicaSet=rs0
+  url: mongodb://eadmin:Random123%40@192.168.1.244,192.168.1.245,192.168.1.246/admin?replicaSet=rs0
+nats:
+  url: "nats://nats.nats:4222"
 app:
   name: comment
-  port: 3004
+  port: "3004"

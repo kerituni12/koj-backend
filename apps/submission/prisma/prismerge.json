@@ -1,0 +1,6 @@
+{
+  "app": {
+    "inputs": ["submission.prisma", "submission-model.prisma"],
+    "output": "_schema.prisma"
+  }
+}

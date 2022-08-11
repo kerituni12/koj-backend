@@ -1,28 +1,36 @@
-import { CookieOptions } from "express";
-import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from "nestjs-prisma";
-import { ConfigService } from "@nestjs/config";
-import { HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
+import { CookieOptions } from 'express';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { ClientNats } from '@nestjs/microservices';
+import {
+  HttpStatus,
+  Inject,
+  Injectable,
+  UnauthorizedException
+} from '@nestjs/common';
 
-import { tracer } from "@/tracing/tracer";
-import { User } from "@koj/generated/user/user.model";
-import { SecurityConfig } from "@/interfaces/config.interface";
-import { encrypt, encryptedData } from "@/utils/crypto.util";
+import { tracer } from '@/tracing/tracer';
+import { User } from '@koj/generated/user/user.model';
+import { RPCTraceClientProxy } from '@koj/instrumentation';
+import { encrypt, encryptedData } from '@/utils/crypto.util';
+import { SecurityConfig } from '@/interfaces/config.interface';
+import { USER_FIND_UNIQUE } from '@koj/common/constants';
 
-import { SignupInput } from "./dto/signup.input";
-import { UserService } from "../user/user.service";
-import { PasswordService } from "../user/password.service";
-import { PermissionService } from "../casbin/permission/permission.service";
+import { SignupInput } from './dto/signup.input';
+import { UserService } from '../user/user.service';
+import { PasswordService } from '../user/password.service';
+import { PermissionService } from '../casbin/permission/permission.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService,
     private readonly userService: UserService,
-    private readonly permissionSerivce: PermissionService
+    private readonly permissionSerivce: PermissionService,
+    private traceClient: RPCTraceClientProxy,
+    @Inject('USER_SERVICE') private readonly userClient: ClientNats
   ) {}
 
   async register(data: SignupInput): Promise<User> {
@@ -34,26 +42,26 @@ export class AuthService {
     const permissions = await this.permissionSerivce.getPermissionForUser(user);
 
     const [accessTokenHeader, accessTokenPayload, accessTokenSignature] =
-      accessToken.split(".");
+      accessToken.split('.');
     const [refreshTokenHeader, refreshTokenPayload, refreshTokenSignature] =
-      refreshToken.split(".");
+      refreshToken.split('.');
 
     const accessTokenCookieOptions = this.getJwtAccessTokenOptions();
     const refreshTokenCookieOptions = this.getJwtRefreshTokenOptions();
 
     request.res.cookie(
-      "a_sign",
+      'a_sign',
       accessTokenSignature,
       accessTokenCookieOptions
     );
     request.res.cookie(
-      "r_sign",
+      'r_sign',
       refreshTokenSignature,
       refreshTokenCookieOptions
     );
-    request.res.cookie("a_header", accessTokenHeader, accessTokenCookieOptions);
+    request.res.cookie('a_header', accessTokenHeader, accessTokenCookieOptions);
     request.res.cookie(
-      "r_header",
+      'r_header',
       refreshTokenHeader,
       refreshTokenCookieOptions
     );
@@ -100,7 +108,7 @@ export class AuthService {
 
         if (!user) {
           const error = new UnauthorizedException({
-            message: "User authenticated fail",
+            message: 'User authenticated fail',
             statusCode: HttpStatus.UNAUTHORIZED
           });
           span.recordException(error);
@@ -112,7 +120,7 @@ export class AuthService {
           await this.passwordService.validatePassword(password, user.password);
 
         if (!passwordValid) {
-          const error = new UnauthorizedException("Invalid password");
+          const error = new UnauthorizedException('Invalid password');
           span.recordException(error);
           span.end();
           throw error;
@@ -126,7 +134,7 @@ export class AuthService {
   }
 
   jwtStringToObject(jwt: string) {
-    const [header, payload, signature] = jwt.split(".");
+    const [header, payload, signature] = jwt.split('.');
 
     return {
       header,
@@ -135,13 +143,20 @@ export class AuthService {
     };
   }
 
-  validateUser(id: User["id"]): Promise<User> {
-    return this.prisma.user.findUnique({ where: { id: id } });
+  validateUser(id: User['id']) {
+    // return this.prisma.user.findUnique({ where: { id: id } });
+    return this.traceClient.send(this.userClient, USER_FIND_UNIQUE, {
+      where: { id }
+    });
   }
 
-  getUserFromToken(token: string): Promise<User> {
-    const id = this.jwtService.decode(token)["id"];
-    return this.prisma.user.findUnique({ where: { id } });
+  getUserFromToken(token: string) {
+    const id = this.jwtService.decode(token)['id'];
+    return this.traceClient.send(this.userClient, USER_FIND_UNIQUE, {
+      where: { id }
+    });
+
+    // return this.prisma.user.findUnique({ where: { id } });
   }
 
   generateToken(user: User) {
@@ -171,25 +186,25 @@ export class AuthService {
   }
 
   private generateAccessToken(payload: {
-    username: User["username"];
-    lastname: User["lastname"];
-    firstname: User["firstname"];
+    username: User['username'];
+    lastname: User['lastname'];
+    firstname: User['firstname'];
     private: encryptedData;
   }) {
-    const securityConfig = this.configService.get<SecurityConfig>("security");
+    const securityConfig = this.configService.get<SecurityConfig>('security');
     return this.jwtService.signAsync(payload, {
-      secret: this.configService.get("JWT_ACCESS_SECRET"),
+      secret: this.configService.get('JWT_ACCESS_SECRET'),
       expiresIn: securityConfig.refreshIn
     });
   }
 
   private generateRefreshToken(payload: {
-    userId: User["id"];
-    domainId: User["domainId"];
+    userId: User['id'];
+    domainId: User['domainId'];
   }) {
-    const securityConfig = this.configService.get<SecurityConfig>("security");
+    const securityConfig = this.configService.get<SecurityConfig>('security');
     return this.jwtService.signAsync(payload, {
-      secret: this.configService.get("JWT_REFRESH_SECRET"),
+      secret: this.configService.get('JWT_REFRESH_SECRET'),
       expiresIn: securityConfig.refreshIn
     });
   }
@@ -206,31 +221,31 @@ export class AuthService {
   }
 
   public getJwtAccessTokenOptions(): CookieOptions {
-    const globalPrefix = this.configService.get("app.globalPrefix");
-    const maxAge = this.configService.get("JWT_REFRESH_TOKEN_EXPIRATION_TIME");
+    const globalPrefix = this.configService.get('app.globalPrefix');
+    const maxAge = this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME');
     const cookie: CookieOptions = {
-      domain: "koj.test",
+      domain: 'koj.test',
       maxAge: maxAge,
       httpOnly: true,
       secure: true,
-      sameSite: process.env.NODE_ENV === "develepment" ? "none" : "none",
+      sameSite: process.env.NODE_ENV === 'develepment' ? 'none' : 'none',
       path: `/`
     };
     return cookie;
   }
   public getJwtRefreshTokenOptions(): CookieOptions {
-    const globalPrefix = this.configService.get("app.globalPrefix");
-    const maxAge = this.configService.get("JWT_REFRESH_TOKEN_EXPIRATION_TIME");
+    const globalPrefix = this.configService.get('app.globalPrefix');
+    const maxAge = this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME');
     console.log(
-      "🚀 ~ file: auth.service.ts ~ line 173 ~ AuthService ~ getJwtRefreshTokenOptions ~ maxAge",
+      '🚀 ~ file: auth.service.ts ~ line 173 ~ AuthService ~ getJwtRefreshTokenOptions ~ maxAge',
       maxAge
     );
     const cookie: CookieOptions = {
-      domain: "koj.test",
+      domain: 'koj.test',
       maxAge: Number(maxAge),
       httpOnly: true,
       secure: true,
-      sameSite: process.env.NODE_ENV === "develepment" ? "none" : "none",
+      sameSite: process.env.NODE_ENV === 'develepment' ? 'none' : 'none',
       path: `/`
     };
     return cookie;

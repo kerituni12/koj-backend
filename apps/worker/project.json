@@ -10,6 +10,7 @@
         "outputPath": "dist/apps/worker",
         "main": "apps/worker/src/main.ts",
         "tsConfig": "apps/worker/tsconfig.app.json",
+        "generatePackageJson": true,
         "assets": [
           "apps/worker/src/transform-worker.js",
           {

@@ -1,5 +1,5 @@
 import * as casbin from 'casbin';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@/koj.prisma.service';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { ADAPTER_ENFORCER } from '../casbin.constant';
@@ -12,11 +12,13 @@ export class RoleGroupService {
   constructor(
     private prisma: PrismaService,
     @Inject(ADAPTER_ENFORCER)
-    private readonly enforcer: casbin.Enforcer,
+    private readonly enforcer: casbin.Enforcer
   ) {}
 
   async createRole(data: RoleGroupCreateInput, select?: object) {
-    const result = await this.enforcer.addPolicy(...this.transformRoleInput(data));
+    const result = await this.enforcer.addPolicy(
+      ...this.transformRoleInput(data)
+    );
 
     if (result) {
       await this.prisma.roleGroup.create({ data, select });

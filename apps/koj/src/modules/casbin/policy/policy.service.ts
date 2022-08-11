@@ -1,13 +1,13 @@
 import * as casbin from 'casbin';
 import { Prisma } from '@prisma/client';
 import { compile } from 'expression-eval';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@/koj.prisma.service';
 import {
   BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
-  NotImplementedException,
+  NotImplementedException
 } from '@nestjs/common';
 
 import { Policy } from '@koj/generated/policy/policy.model';
@@ -25,18 +25,18 @@ export class PolicyService {
   constructor(
     private prisma: PrismaService,
     @Inject(ADAPTER_ENFORCER)
-    private readonly enforcer: casbin.Enforcer,
+    private readonly enforcer: casbin.Enforcer
   ) {}
 
   async createPolicy(data: PolicyCreateInput) {
     const casbinResult = await this.enforcer.addPolicy(
-      ...this.transformPolicyInput(data),
+      ...this.transformPolicyInput(data)
     );
 
     if (!casbinResult) {
       throw new BadRequestException({
         message: `Can't create policy`,
-        statusCode: HttpStatus.BAD_REQUEST,
+        statusCode: HttpStatus.BAD_REQUEST
       });
     }
 
@@ -55,7 +55,7 @@ export class PolicyService {
     if (!casbinResult) {
       throw new BadRequestException({
         message: `Can't create policy`,
-        statusCode: HttpStatus.BAD_REQUEST,
+        statusCode: HttpStatus.BAD_REQUEST
       });
     }
 
@@ -75,20 +75,30 @@ export class PolicyService {
     return this.prisma.$queryRawUnsafe(query);
   }
 
-  async update(data: PolicyUpdateInput, where: PolicyWhereUniqueInput, select: object) {
+  async update(
+    data: PolicyUpdateInput,
+    where: PolicyWhereUniqueInput,
+    select: object
+  ) {
     const policy = await this.prisma.policy.findUnique({ where });
 
     if (!policy) {
       throw new NotFoundException();
     }
 
-    const { oldData, newData } = this.getOldNewPolicyData(<Policy>policy, <Policy>data);
-    const updatePolicyResult = await this.enforcer.updatePolicy(oldData, newData);
+    const { oldData, newData } = this.getOldNewPolicyData(
+      <Policy>policy,
+      <Policy>data
+    );
+    const updatePolicyResult = await this.enforcer.updatePolicy(
+      oldData,
+      newData
+    );
 
     if (!updatePolicyResult) {
       throw new BadRequestException({
         message: `Can't update policy`,
-        statusCode: HttpStatus.BAD_REQUEST,
+        statusCode: HttpStatus.BAD_REQUEST
       });
     }
 
@@ -123,7 +133,7 @@ export class PolicyService {
       p.effect,
       p.effectWith,
       p.condition,
-      p.domainId?.toString(),
+      p.domainId?.toString()
     ];
   }
 
@@ -138,7 +148,12 @@ export class PolicyService {
 
     try {
       const mockData = {
-        subject: { username: 'username', role: 'role', type: 'type', level: 'level' },
+        subject: {
+          username: 'username',
+          role: 'role',
+          type: 'type',
+          level: 'level'
+        }
       };
 
       const resultCompile = compile(condition)(mockData);
@@ -159,7 +174,7 @@ export class PolicyService {
       effect,
       effectWith,
       condition,
-      domainId.toString(),
+      domainId.toString()
     ];
     const newData = [
       data.subject || subject,
@@ -168,7 +183,7 @@ export class PolicyService {
       data.effect || effect,
       data.effectWith || effectWith,
       data.condition || condition,
-      data.domainId?.toString() || domainId.toString(),
+      data.domainId?.toString() || domainId.toString()
     ];
 
     return { oldData, newData };

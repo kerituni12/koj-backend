@@ -1,3 +1,5 @@
+import { natsConfig } from '@/configs/nats.config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
@@ -9,7 +11,12 @@ import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { UserService } from '../user/user.service';
 import { CasbinModule } from '../casbin/casbin.module';
-import { GithubGuard, GoogleOauthGuard, GqlAuthGuard, GqlPolicyGuard } from '@koj/common/guards';
+import {
+  GithubGuard,
+  GoogleOauthGuard,
+  GqlAuthGuard,
+  GqlPolicyGuard
+} from '@koj/common/guards';
 import { AuthMutationsResolver } from './auth.mutation';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PasswordService } from '../user/password.service';
@@ -24,6 +31,16 @@ import { GithubService } from './provider/github.service';
 
 @Module({
   imports: [
+    ClientsModule.register([
+      {
+        name: 'USER_SERVICE',
+        transport: Transport.NATS,
+        options: {
+          servers: natsConfig.servers,
+          queue: 'user_queue'
+        }
+      }
+    ]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {
@@ -31,19 +48,19 @@ import { GithubService } from './provider/github.service';
         return {
           secret: configService.get<string>('JWT_ACCESS_SECRET'),
           signOptions: {
-            expiresIn: securityConfig.expiresIn,
-          },
+            expiresIn: securityConfig.expiresIn
+          }
         };
       },
-      inject: [ConfigService],
+      inject: [ConfigService]
     }),
     CasbinModule.register({
       enforcerProvider: enforcerProvider,
       userFromContext: function (context: ExecutionContext): string {
         throw new Error('Function not implemented.');
-      },
+      }
     }),
-    LoggerModule,
+    LoggerModule
   ],
   providers: [
     AuthService,
@@ -64,6 +81,6 @@ import { GithubService } from './provider/github.service';
     GithubService
   ],
   controllers: [AuthController],
-  exports: [GqlAuthGuard, GqlPolicyGuard],
+  exports: [GqlAuthGuard, GqlPolicyGuard]
 })
 export class AuthModule {}

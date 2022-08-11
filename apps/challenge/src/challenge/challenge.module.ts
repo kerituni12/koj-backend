@@ -1,22 +1,24 @@
+import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { PrismaModule } from 'nestjs-prisma';
 
 import { AppController } from './challenge.controller';
 import { ChallengeService } from './challenge.service';
-import { LoggerModule } from '../../../koj/src/logger/logger.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    LoggerModule.forRoot(),
     PrismaModule.forRootAsync({
       isGlobal: true,
       useFactory: () => ({
-        prismaOptions: { log: ['info', 'query'], errorFormat: 'minimal' },
+        prismaOptions: { log: ['info', 'query'], errorFormat: 'minimal' }
         // middlewares: [loggingMiddleware()],
-      }),
-    }),
-    LoggerModule,
+      })
+    })
   ],
   controllers: [AppController],
-  providers: [ChallengeService],
+  providers: [ChallengeService]
 })
 export class AppModule {}

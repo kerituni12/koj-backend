@@ -1,7 +1,7 @@
 import { GroupCreateInput } from '@koj/generated/group/group-create.input';
 import { GroupUpdateInput } from '@koj/generated/group/group-update.input';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@/koj.prisma.service';
 import { FindManyGroupArgs } from '@koj/generated/group/find-many-group.args';
 import { GroupWhereUniqueInput } from '@koj/generated/group/group-where-unique.input';
 import { GroupWhereInput } from '@koj/generated/group/group-where.input';

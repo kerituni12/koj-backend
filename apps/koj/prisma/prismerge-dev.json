@@ -1,0 +1,11 @@
+{
+  "app": {
+    "inputs": [
+      "koj.prisma",
+      "auth.prisma",
+      "user-model.prisma",
+      "../../../prisma/generator-graphql.prisma"
+    ],
+    "output": "_schema.prisma"
+  }
+}

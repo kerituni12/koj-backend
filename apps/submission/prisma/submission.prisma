@@ -1,6 +1,6 @@
-generator user {
+generator challenge {
     provider = "prisma-client-js"
-    output   = "../../../node_modules/@koj-prisma/user"
+    output   = "../../../node_modules/@koj-prisma/submission"
 }
 
 datasource db {

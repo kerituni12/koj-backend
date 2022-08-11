@@ -19,24 +19,24 @@ spec:
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.app.port}}
+            - containerPort: 3004
           env:
             - name: PORT
-              value: {{ .Values.app.port}}
+              value: "3004"
             - name: NATS_URL
-              value: "nats://nats:4222"
+              value: {{ .Values.nats.url }}
             - name: MONGO_URL
-              value: {{ .Values.mongo.url}}
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: ""
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: ""
-            - name: MONGO_INITDB_DATABASE
-              value: ""
-            - name: MONGO_INITDB_USERNAME
-              value: ""
-            - name: MONGO_INITDB_PASSWORD
-              value: ""
+              value: {{ .Values.mongo.url }}
+            # - name: MONGO_INITDB_ROOT_USERNAME
+            #   value: ""
+            # - name: MONGO_INITDB_ROOT_PASSWORD
+            #   value: ""
+            # - name: MONGO_INITDB_DATABASE
+            #   value: ""
+            # - name: MONGO_INITDB_USERNAME
+            #   value: ""
+            # - name: MONGO_INITDB_PASSWORD
+            #   value: ""
             - name: MONGO_REPLICA_SET_NAME
               value: rs0
 

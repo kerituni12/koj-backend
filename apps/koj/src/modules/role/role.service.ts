@@ -1,11 +1,11 @@
 import slugify from 'slugify';
 import { Prisma } from '@prisma/client';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@/koj.prisma.service';
 import {
   ConflictException,
   Injectable,
   NotFoundException,
-  NotImplementedException,
+  NotImplementedException
 } from '@nestjs/common';
 
 import { RoleCreateInput } from './dto/role-create.input';
@@ -24,7 +24,7 @@ export class RoleService {
   constructor(
     private readonly casbinPolicyService: PolicyService,
     private readonly roleGroupService: RoleGroupService,
-    private readonly prisma: PrismaService,
+    private readonly prisma: PrismaService
   ) {}
 
   async createRole(data: RoleCreateInput, select?: object) {
@@ -33,12 +33,12 @@ export class RoleService {
 
     const checkExist = await this.prisma.role.findFirst({
       where: { key, domainId },
-      select: { id: true },
+      select: { id: true }
     });
     if (checkExist) {
       throw new ConflictException({
         message: 'Role already exists',
-        statusCode: HttpStatus.CONFLICT,
+        statusCode: HttpStatus.CONFLICT
       });
     }
 
@@ -47,7 +47,7 @@ export class RoleService {
         domainId,
         createdById,
         createdByName,
-        subject: key,
+        subject: key
       });
     });
 
@@ -58,9 +58,9 @@ export class RoleService {
       {
         domainId,
         rule: key,
-        role: key,
+        role: key
       },
-      { id: true },
+      { id: true }
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -79,25 +79,29 @@ export class RoleService {
       if (!data) {
         throw new NotFoundException({
           message: 'Role not exists',
-          statusCode: HttpStatus.NOT_FOUND,
+          statusCode: HttpStatus.NOT_FOUND
         });
       }
       return data;
     });
   }
 
-  async update(data: RoleUpdateInput, where: RoleWhereUniqueInput, select: object) {
+  async update(
+    data: RoleUpdateInput,
+    where: RoleWhereUniqueInput,
+    select: object
+  ) {
     const { domainId } = data;
     const key = slugify(data.name);
 
     const checkExistResult = await this.prisma.role.findFirst({
       where: { key, domainId },
-      select: { id: true, name: true },
+      select: { id: true, name: true }
     });
     if (checkExistResult && data.name === checkExistResult.name) {
       throw new ConflictException({
         message: 'Role is exists',
-        statusCode: HttpStatus.CONFLICT,
+        statusCode: HttpStatus.CONFLICT
       });
     }
 

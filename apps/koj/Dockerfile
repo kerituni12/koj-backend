@@ -1,36 +1,32 @@
 ###################
-# BUILD FOR BASE
+# BUILD FOR DEVELOPMENT
 ###################
 
-FROM arm64v8/node:16-alpine As base
+FROM node:16 as build
 
 WORKDIR /app
 
 RUN npm i -g pnpm@7
 
-###################
-# BUILD FOR DEVELOPMENT
-###################
-
-FROM base as build
-
 COPY .npmrc pnpm-lock.yaml package.json ./
-
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
 RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store\
     pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN cd apps/koj/prisma && npx prismerge -i prismerge.json && npx prisma generate --schema _schema.prisma
+RUN cd apps/koj/prisma && npx prisma generate --schema _schema.prisma
 RUN pnpm nx build koj --prod
 
 # ###################
 # # BUILD FOR PRODUCTION
 # ###################
 
-FROM base as production
+FROM node:16-alpine as production
+
+WORKDIR /app
+
+RUN npm i -g pnpm@7
 
 ENV NODE_ENV production
 

@@ -5,16 +5,12 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/code-generator",
         "main": "apps/code-generator/src/main.ts",
         "tsConfig": "apps/code-generator/tsconfig.app.json",
-        "assets": [
-          "apps/code-generator/src/assets"
-        ]
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -38,20 +34,14 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/code-generator/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/code-generator/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/code-generator"
-      ],
+      "outputs": ["coverage/apps/code-generator"],
       "options": {
         "jestConfig": "apps/code-generator/jest.config.js",
         "passWithNoTests": true

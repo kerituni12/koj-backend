@@ -10,6 +10,7 @@
         "outputPath": "dist/apps/koj",
         "main": "apps/koj/src/main.ts",
         "tsConfig": "apps/koj/tsconfig.app.json",
+        "generatePackageJson": true,
         "assets": [{ "glob": "model.conf", "input": "./", "output": "./" }]
       },
       "configurations": {

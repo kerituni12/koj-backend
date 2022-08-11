@@ -1,6 +1,6 @@
 import * as casbin from 'casbin';
 import { compile } from 'expression-eval';
-import { PrismaService } from 'nestjs-prisma';
+import { PrismaService } from '@/koj.prisma.service';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { Policy } from '@koj/generated/policy/policy.model';
@@ -15,7 +15,7 @@ export class PermissionService {
   constructor(
     private prisma: PrismaService,
     @Inject(ADAPTER_ENFORCER)
-    private readonly enforcer: casbin.Enforcer,
+    private readonly enforcer: casbin.Enforcer
   ) {}
 
   findMany(args: FindManyPolicyArgs, select: object) {
@@ -24,7 +24,7 @@ export class PermissionService {
 
   async getPermissionForUser(user: User) {
     const permissions: { permission: string }[] = await this.prisma.$queryRaw(
-      permissionQuery(user),
+      permissionQuery(user)
     );
 
     return permissions.map((permission) => permission.permission);
@@ -38,7 +38,7 @@ export class PermissionService {
       p.effect,
       p.effectWith,
       p.condition,
-      p.domainId?.toString(),
+      p.domainId?.toString()
     ];
   }
 
@@ -53,7 +53,12 @@ export class PermissionService {
 
     try {
       const mockData = {
-        subject: { username: 'username', role: 'role', type: 'type', level: 'level' },
+        subject: {
+          username: 'username',
+          role: 'role',
+          type: 'type',
+          level: 'level'
+        }
       };
 
       const resultCompile = compile(condition)(mockData);
@@ -74,7 +79,7 @@ export class PermissionService {
       effect,
       effectWith,
       condition,
-      domainId.toString(),
+      domainId.toString()
     ];
     const newData = [
       data.subject || subject,
@@ -83,7 +88,7 @@ export class PermissionService {
       data.effect || effect,
       data.effectWith || effectWith,
       data.condition || condition,
-      data.domainId.toString() || domainId.toString(),
+      data.domainId.toString() || domainId.toString()
     ];
 
     return { oldData, newData };

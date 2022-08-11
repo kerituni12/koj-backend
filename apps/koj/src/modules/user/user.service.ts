@@ -1,18 +1,18 @@
-import { nanoid } from "nanoid";
-import { Prisma } from "@prisma/client";
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { PrismaService } from "nestjs-prisma";
-import { UserInputError } from "apollo-server-express";
+import { nanoid } from 'nanoid';
+import { Prisma } from '@koj-prisma/user';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from './user.prisma.service';
+import { UserInputError } from 'apollo-server-express';
 
-import { User } from "@koj/generated/user/user.model";
-import { UserCreateInput } from "@koj/generated/user/user-create.input";
-import { UserUpdateInput } from "@koj/generated/user/user-update.input";
-import { FindManyUserArgs } from "@koj/generated/user/find-many-user.args";
-import { UserWhereUniqueInput } from "@koj/generated/user/user-where-unique.input";
+import { User } from '@koj/generated/user/user.model';
+import { UserCreateInput } from '@koj/generated/user/user-create.input';
+import { UserUpdateInput } from '@koj/generated/user/user-update.input';
+import { FindManyUserArgs } from '@koj/generated/user/find-many-user.args';
+import { UserWhereUniqueInput } from '@koj/generated/user/user-where-unique.input';
 
-import { PasswordService } from "./password.service";
-import { UserEmailDomainIdCompoundUniqueInput } from "@koj/generated/user/user-email-domain-id-compound-unique.input";
-import { UserUsernameDomainIdCompoundUniqueInput } from "@koj/generated/user/user-username-domain-id-compound-unique.input";
+import { PasswordService } from './password.service';
+import { UserEmailDomainIdCompoundUniqueInput } from '@koj/generated/user/user-email-domain-id-compound-unique.input';
+import { UserUsernameDomainIdCompoundUniqueInput } from '@koj/generated/user/user-username-domain-id-compound-unique.input';
 
 @Injectable()
 export class UserService {
@@ -26,7 +26,7 @@ export class UserService {
       { id: true }
     );
     if (isExisted) {
-      throw new BadRequestException("User with that email already exists");
+      throw new BadRequestException('User with that email already exists');
     }
 
     try {
@@ -40,7 +40,7 @@ export class UserService {
 
       return user;
     } catch (error) {
-      throw new BadRequestException("Fail when create user");
+      throw new BadRequestException('Fail when create user');
     }
   }
 
@@ -55,7 +55,7 @@ export class UserService {
         domainId: data.domainId
       },
       select: { username: true },
-      orderBy: { username: "desc" }
+      orderBy: { username: 'desc' }
     });
 
     if (users.findIndex((user) => user.username === data.username) > -1) {
@@ -75,7 +75,7 @@ export class UserService {
 
       return user;
     } catch (error) {
-      throw new BadRequestException("Fail when create user");
+      throw new BadRequestException('Fail when create user');
     }
   }
 

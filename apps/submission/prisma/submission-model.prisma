@@ -1,0 +1,70 @@
+model Submission {
+    id                Int      @id @default(autoincrement())
+    languageId        String?
+    challengeId       Int?     @map("challenge_id")
+    content           String
+    result            Json?
+    info              Json?
+    ip                String?
+    shared            Boolean  @default(false)
+    /// @HideField({input: true, output:true})
+    domainId          Int      @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById       Int?     @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername String?  @map("created_by_username")
+    createdAt         DateTime @default(now()) @map("created_at")
+
+    @@map("submission")
+}
+
+model SubmissionContest {
+    id                Int      @id @default(autoincrement())
+    languageId        String?
+    contestId         Int?     @map("contest_id")
+    challengeId       Int?     @map("challenge_id")
+    content           String
+    result            Json?
+    ip                String?
+    shared            Boolean  @default(false)
+    /// @HideField({input: true, output:true})
+    domainId          Int      @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById       Int?     @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername String?  @map("created_by_username")
+    createdAt         DateTime @default(now()) @map("created_at")
+
+    @@map("submission-contest")
+}
+
+model SubmissionStatistic {
+    id                Int      @id @default(autoincrement())
+    challengeId       Int?     @map("challenge_id")
+    languageId        String?  @map("language_id")
+    score             Int      @default(0)
+    submitCount       Int      @default(0) @map("submit_count")
+    info              Json?
+    /// @HideField({input: true, output:true})
+    domainId          Int      @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById       Int?     @map("created_by_id")
+    /// @HideField({input: true})
+    createdByUsername String?  @map("created_by_username")
+    lastSubmitTime    DateTime @default(now()) @map("last_submit_time")
+
+    @@unique([createdById, challengeId])
+    @@map("submission-statistic")
+}
+
+model SubmissionContestStatistic {
+    id          Int   @id @default(autoincrement())
+    contestId   Int?  @map("contest_id")
+    info        Json?
+    /// @HideField({input: true, output:true})
+    domainId    Int   @default(0) @map("domain_id")
+    /// @HideField({input: true, output:true})
+    createdById Int?  @map("created_by_id")
+
+    @@map("submission-contest-statistic")
+}

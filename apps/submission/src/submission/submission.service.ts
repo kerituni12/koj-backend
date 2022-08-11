@@ -2,28 +2,28 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException
-} from "@nestjs/common";
+} from '@nestjs/common';
 
-import { Prisma } from "@prisma/client";
-import { PinoLogger } from "nestjs-pino";
-import { performance } from "perf_hooks";
-import { HttpStatus } from "@nestjs/common";
-import { PrismaService } from "nestjs-prisma";
+import { Prisma } from '@koj-prisma/submission';
+import { PinoLogger } from 'nestjs-pino';
+import { performance } from 'perf_hooks';
+import { HttpStatus } from '@nestjs/common';
+import { PrismaService } from '../submission.prisma.service';
 
-import { Input } from "@koj/code-gen";
-import { CodeExecutor } from "@koj/code-executor";
-import { ChallengeSubmitInput, ChallengeSubmitResult } from "@koj/common/dto";
-import { SubmissionCreateInput } from "@koj/generated/submission/submission-create.input";
-import { FindManySubmissionArgs } from "@koj/generated/submission/find-many-submission.args";
+import { Input } from '@koj/code-gen';
+import { CodeExecutor } from '@koj/code-executor';
+import { ChallengeSubmitInput, ChallengeSubmitResult } from '@koj/common/dto';
+import { SubmissionCreateInput } from '@koj/generated/submission/submission-create.input';
+import { FindManySubmissionArgs } from '@koj/generated/submission/find-many-submission.args';
 
-import saveFolder from "../utils/save-folder.util";
-import saveTestcases from "../utils/save-testcase.util";
-import { languageConfigs } from "../utils/language.config";
-import { KSubmissionWhereUniqueInput } from "../dto/submission-where-unique.input";
-import { RUN_SUBMIT, RUN_TEST } from "@koj/common/constants";
-import { decodeBase64, encodeBase64 } from "@koj/common/utils";
+import saveFolder from '../utils/save-folder.util';
+import saveTestcases from '../utils/save-testcase.util';
+import { languageConfigs } from '../utils/language.config';
+import { KSubmissionWhereUniqueInput } from '../dto/submission-where-unique.input';
+import { RUN_SUBMIT, RUN_TEST } from '@koj/common/constants';
+import { decodeBase64, encodeBase64 } from '@koj/common/utils';
 
-const codeExecutor = new CodeExecutor("myExecutor", "redis://127.0.0.1:6379");
+const codeExecutor = new CodeExecutor('myExecutor', 'redis://127.0.0.1:6379');
 export interface SubmissionWhereCondition {
   id?: number;
   slug_domainId: { slug: string; domainId: number };
@@ -50,7 +50,7 @@ export class SubmissionService {
     return this.prisma.submission.findUnique({ where, select }).then((data) => {
       if (!data) {
         throw new NotFoundException({
-          message: "Submission not exists",
+          message: 'Submission not exists',
           statusCode: HttpStatus.NOT_FOUND
         });
       }
@@ -61,7 +61,7 @@ export class SubmissionService {
   async remove(where: KSubmissionWhereUniqueInput, select: object) {
     return this.prisma.submission.delete({ where, select }).catch((error) => {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === "P2025") {
+        if (error.code === 'P2025') {
           throw new NotFoundException();
         }
       }
@@ -80,17 +80,17 @@ export class SubmissionService {
     const inputData = Input.formJson(<any>inputSchema);
 
     try {
-      const basePath = "/mnt/Data/code1/code-executor1";
+      const basePath = '/mnt/Data/code1/code-executor1';
       const path = `${basePath}/challenges/${domainId}/${slug}`;
       await saveFolder(path);
 
       const promiseWriteCode = data.languages
-        .filter((language) => ["cplusplus", "javascript"].includes(language.id))
+        .filter((language) => ['cplusplus', 'javascript'].includes(language.id))
         .map((language) =>
           languageConfigs[language.id].gen({ inputData, domainId, slug, path })
         );
       promiseWriteCode.push(
-        languageConfigs["output"].gen({ inputData, domainId, slug, path })
+        languageConfigs['output'].gen({ inputData, domainId, slug, path })
       );
       const promiseWriteTestCase = (data.testcases || []).map(
         (testcase, index) => {
@@ -106,7 +106,7 @@ export class SubmissionService {
       await Promise.all([...promiseWriteCode, ...promiseWriteTestCase]);
     } catch (error) {
       console.log(
-        "🚀 ~ file: submission.service.ts ~ line 135 ~ SubmissionService ~ saveCode ~ error",
+        '🚀 ~ file: submission.service.ts ~ line 135 ~ SubmissionService ~ saveCode ~ error',
         error
       );
       throw new InternalServerErrorException(error.message);

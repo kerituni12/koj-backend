@@ -10,12 +10,13 @@ RUN npm i -g pnpm@7
 
 COPY .npmrc pnpm-lock.yaml package.json ./
 
-RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store\
+RUN --mount=type=cache,mode=0777,id=pnpm-store,target=target=/root/.local/share/pnpm/store/v3 \
     pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm nx build comment --prod
+RUN cd apps/challenge/prisma && npx prisma generate --schema _schema.prisma
+RUN pnpm nx build challenge --prod
 
 # ###################
 # # BUILD FOR PRODUCTION
@@ -30,10 +31,10 @@ RUN npm i -g pnpm@7
 ENV NODE_ENV production
 
 COPY  .npmrc pnpm-lock.yaml ./
-COPY --from=build /app/dist/apps/comment/package.json ./
-COPY --from=build /app/dist/apps/comment ./dist
+COPY --from=build /app/dist/apps/challenge/package.json ./
+COPY --from=build /app/dist/apps/challenge ./dist
 
-RUN  --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store\ 
+RUN  --mount=type=cache,id=pnpm-store,target=target=/root/.local/share/pnpm/store/v3 \ 
     pnpm install --prod
 
 

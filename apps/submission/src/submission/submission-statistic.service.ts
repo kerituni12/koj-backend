@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
-import { PrismaService } from "nestjs-prisma";
+import { PrismaService } from '../submission.prisma.service';
 
-import { FindManySubmissionStatisticArgs } from "@koj/generated/submission-statistic/find-many-submission-statistic.args";
+import { FindManySubmissionStatisticArgs } from '@koj/generated/submission-statistic/find-many-submission-statistic.args';
 
 export interface SubmissionStatisticWhereCondition {
   id?: number;

@@ -1,0 +1,10 @@
+{
+  "app": {
+    "inputs": [
+      "../../../prisma/generator-graphql.prisma",
+      "user-model.prisma",
+      "user.prisma"
+    ],
+    "output": "_schema.prisma"
+  }
+}
