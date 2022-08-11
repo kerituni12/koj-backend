@@ -10,8 +10,7 @@ RUN npm i -g pnpm@7
 
 COPY .npmrc pnpm-lock.yaml package.json ./
 
-RUN --mount=type=cache,mode=0777,id=pnpm-store,target=target=/root/.local/share/pnpm/store/v3 \
-    pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
@@ -34,8 +33,9 @@ COPY  .npmrc pnpm-lock.yaml ./
 COPY --from=build /app/dist/apps/challenge/package.json ./
 COPY --from=build /app/dist/apps/challenge ./dist
 
-RUN  --mount=type=cache,id=pnpm-store,target=target=/root/.local/share/pnpm/store/v3 \ 
-    pnpm install --prod
+RUN  pnpm install --prod
 
+COPY --from=build /app/apps/challenge/prisma/_schema.prisma ./_schema.prisma 
+RUN npx prisma generate --schema _schema.prisma
 
 CMD [ "node", "dist/main.js" ]

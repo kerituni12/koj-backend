@@ -22,7 +22,7 @@ spec:
             - containerPort: {{ .Values.app.port }}
           env:
             - name: PORT
-              value: {{ .Values.app.port }}
+              value: "{{ .Values.app.port }}"
             - name: NATS_URL
               value: {{ .Values.nats.url }}
             - name: POSTGRES_URL

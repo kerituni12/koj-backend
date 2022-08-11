@@ -27,6 +27,7 @@ specifiers:
   '@opentelemetry/api': ^1.1.0
   '@opentelemetry/auto-instrumentations-node': ^0.28.0
   '@opentelemetry/exporter-trace-otlp-http': ^0.28.0
+  '@opentelemetry/instrumentation': ^0.31.0
   '@opentelemetry/instrumentation-express': ^0.28.0
   '@opentelemetry/instrumentation-graphql': ^0.27.4
   '@opentelemetry/instrumentation-http': ^0.28.0
@@ -136,6 +137,7 @@ dependencies:
   '@opentelemetry/api': 1.1.0
   '@opentelemetry/auto-instrumentations-node': 0.28.0_@opentelemetry+api@1.1.0
   '@opentelemetry/exporter-trace-otlp-http': 0.28.0_@opentelemetry+api@1.1.0
+  '@opentelemetry/instrumentation': 0.31.0_@opentelemetry+api@1.1.0
   '@opentelemetry/instrumentation-express': 0.28.0_@opentelemetry+api@1.1.0
   '@opentelemetry/instrumentation-graphql': 0.27.4_@opentelemetry+api@1.1.0
   '@opentelemetry/instrumentation-http': 0.28.0_@opentelemetry+api@1.1.0
@@ -2122,6 +2124,13 @@ packages:
       '@opentelemetry/api': 1.1.0
     dev: false
 
+  /@opentelemetry/api-metrics/0.31.0:
+    resolution: {integrity: sha512-PcL1x0kZtMie7NsNy67OyMvzLEXqf3xd0TZJKHHPMGTe89oMpNVrD1zJB1kZcwXOxLlHHb6tz21G3vvXPdXyZg==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+    dev: false
+
   /@opentelemetry/api/1.1.0:
     resolution: {integrity: sha512-hf+3bwuBwtXsugA2ULBc95qxrOqP2pOekLz34BJhcAKawt94vfeNyUKpYc0lZQ/3sCP6LqRa7UAdHA7i5UODzQ==}
     engines: {node: '>=8.0.0'}
@@ -2709,6 +2718,21 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.1.0
       '@opentelemetry/api-metrics': 0.29.2
+      require-in-the-middle: 5.1.0
+      semver: 7.3.7
+      shimmer: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@opentelemetry/instrumentation/0.31.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-b2hFebXPtBcut4d81b8Kg6GiCoAS8nxb8kYSronQYAXxwNSetqHwIJ2nKLo1slFH1UWUXn0zi3eDez2Sn/9uMQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.0
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/api-metrics': 0.31.0
       require-in-the-middle: 5.1.0
       semver: 7.3.7
       shimmer: 1.2.1
