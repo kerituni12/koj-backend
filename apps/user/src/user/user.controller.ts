@@ -1,8 +1,8 @@
-import { MessagePattern, Payload } from "@nestjs/microservices";
-import { Controller, UsePipes, ValidationPipe } from "@nestjs/common";
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 
-import { Span } from "@koj/instrumentation";
-import { UserService } from "./user.service";
+import { Span } from '@koj/instrumentation';
+import { UserService } from './user.service';
 import {
   USER_CREATE,
   USER_DELETE,
@@ -10,7 +10,7 @@ import {
   USER_FIND_UNIQUE,
   USER_FIND_UNIQUE_BY_USERNAME,
   USER_UPDATE
-} from "@koj/common/constants";
+} from '@koj/common/constants';
 
 @Controller()
 export class AppController {
@@ -32,10 +32,6 @@ export class AppController {
   @MessagePattern(USER_FIND_UNIQUE)
   m_getUserById(@Payload() payload) {
     const { where, select } = payload;
-    console.log(
-      "🚀 ~ file: user.controller.ts ~ line 38 ~ AppController ~ m_getUserById ~ payload",
-      payload
-    );
     return this.userService.getUserById(where.id, select);
   }
 
