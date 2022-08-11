@@ -15,7 +15,7 @@ RUN --mount=type=cache,mode=0777,id=pnpm-store,target=target=/root/.local/share/
 
 COPY . .
 
-RUN cd apps/submission/prisma && npx prisma generate --schema _schema.prisma
+RUN cd apps/submission/prisma && npx prismerge -i prismerge.json && npx prisma generate --schema _schema.prisma
 RUN pnpm nx build submission --prod
 
 # ###################
