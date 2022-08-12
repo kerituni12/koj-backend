@@ -1,6 +1,5 @@
-###################
+
 # BUILD FOR DEVELOPMENT
-###################
 
 FROM node:16 as build
 
@@ -17,13 +16,14 @@ COPY . .
 RUN cd apps/challenge/prisma && npx prismerge -i prismerge.json && npx prisma generate --schema _schema.prisma
 RUN pnpm nx build challenge --prod
 
-# ###################
-# # BUILD FOR PRODUCTION
-# ###################
+# PRODUCTION
 
-FROM node:16-alpine as production
+FROM node:16-slim as production
 
 WORKDIR /app
+
+RUN apt-get update
+RUN apt-get install -y openssl
 
 RUN npm i -g pnpm@7
 

@@ -26,6 +26,7 @@ specifiers:
   '@nrwl/workspace': 13.8.1
   '@opentelemetry/api': ^1.1.0
   '@opentelemetry/auto-instrumentations-node': ^0.28.0
+  '@opentelemetry/core': ^1.5.0
   '@opentelemetry/exporter-trace-otlp-http': ^0.28.0
   '@opentelemetry/instrumentation': ^0.31.0
   '@opentelemetry/instrumentation-express': ^0.28.0
@@ -36,6 +37,7 @@ specifiers:
   '@opentelemetry/instrumentation-pino': ^0.28.1
   '@opentelemetry/sdk-node': ^0.28.0
   '@opentelemetry/sdk-trace-base': ^1.2.0
+  '@opentelemetry/semantic-conventions': ^1.5.0
   '@paljs/plugins': ^4.0.13
   '@prisma-utils/prismerge': ^1.6.2
   '@prisma/client': ^3.9.2
@@ -136,6 +138,7 @@ dependencies:
   '@nestjs/platform-express': 8.4.7_7tsmhnugyerf5okgqzer2mfqme
   '@opentelemetry/api': 1.1.0
   '@opentelemetry/auto-instrumentations-node': 0.28.0_@opentelemetry+api@1.1.0
+  '@opentelemetry/core': 1.5.0_@opentelemetry+api@1.1.0
   '@opentelemetry/exporter-trace-otlp-http': 0.28.0_@opentelemetry+api@1.1.0
   '@opentelemetry/instrumentation': 0.31.0_@opentelemetry+api@1.1.0
   '@opentelemetry/instrumentation-express': 0.28.0_@opentelemetry+api@1.1.0
@@ -146,6 +149,7 @@ dependencies:
   '@opentelemetry/instrumentation-pino': 0.28.1_@opentelemetry+api@1.1.0
   '@opentelemetry/sdk-node': 0.28.0_@opentelemetry+api@1.1.0
   '@opentelemetry/sdk-trace-base': 1.5.0_@opentelemetry+api@1.1.0
+  '@opentelemetry/semantic-conventions': 1.5.0
   '@paljs/plugins': 4.1.0_graphql@15.8.0
   '@prisma/client': 3.15.2_prisma@3.15.2
   '@supercharge/request-ip': 1.2.0
@@ -2835,7 +2839,7 @@ packages:
       '@opentelemetry/api': ^1.0.2
     dependencies:
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/core': 1.5.0_@opentelemetry+api@1.1.0
       '@opentelemetry/resources': 1.2.0_@opentelemetry+api@1.1.0
       '@opentelemetry/semantic-conventions': 1.5.0
     dev: false
