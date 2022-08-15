@@ -26,7 +26,37 @@ spec:
             - name: NATS_URL
               value: {{ .Values.nats.url }}
             - name: POSTGRES_URL
-              value: {{ .Values.postgres.url }}            
+              value: {{ .Values.postgres.url }}
+            - name: REDIS_HOST
+              value: localhost
+            - name: REDIS_PORT
+              value: "6379"
+            - name: JWT_ACCESS_SECRET
+              value: nestjsPrismaAccessSecret
+            - name: JWT_REFRESH_SECRET
+              value: nestjsPrismaRefreshSecret
+            - name: JWT_REFRESH_TOKEN_EXPIRATION_TIME
+              value: "604800"
+            - name: BCRYPT_SALT_OR_ROUND
+              value: "10"
+            - name: CRYPTO_AUTH_SECRET
+              value: nestjsCryptoAuthSecret
+            - name: GOOGLE_AUTH_CLIENT_ID
+              value: 393042588124-mdcagqs55a8evivejhfgoe5o01tjfkda.apps.googleusercontent.com
+            - name: GOOGLE_AUTH_CLIENT_SECRET
+              value: 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
+            - name: GITHUB_CLIENT_ID
+              value: Iv1.7b1c7b07ba355ee5
+            - name: GITHUB_CLIENT_SECRET
+              value: faad679fd4b40c65e3bcdab2b87bafea2ee5baad
+            - name: GITHUB_CALLBACK_URL
+              value: https://sub.koj.test/api/auth/github/callback
+            - name: REDIRECT_URL
+              value: https://react.koj.test
+            - name: CASBIN_RULE_LENGTH
+              value: "4"
+            - name: LOG_FILE_NAME
+              value: "/log/log.log"            
 
 ---
 apiVersion: v1
