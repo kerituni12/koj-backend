@@ -10,8 +10,6 @@ import { enforcerProvider } from '../enforcer.provider';
 import { RoleGroupMutationResolver } from './ role.mutation';
 import { PrismaService } from '@/koj.prisma.service';
 
-console.log(path.resolve('model.conf'));
-
 @Module({
   imports: [
     CasbinModule.register({

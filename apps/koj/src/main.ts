@@ -1,5 +1,7 @@
 // Monkeypatching must at top level of code
 // import './tracing';
+import { config } from 'dotenv';
+config();
 
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
