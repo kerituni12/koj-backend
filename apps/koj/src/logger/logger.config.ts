@@ -18,6 +18,6 @@ export const loggerOptions: Pino.LoggerOptions = {
 };
 
 export const logger: Pino.Logger = Pino(
-  loggerOptions,
-  Pino.destination(__dirname + process.env.LOG_FILE_NAME)
+  loggerOptions
+  // Pino.destination(__dirname + process.env.LOG_FILE_NAME)
 );
