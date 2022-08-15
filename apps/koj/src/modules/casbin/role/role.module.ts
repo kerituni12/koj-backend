@@ -13,7 +13,7 @@ import { PrismaService } from '@/koj.prisma.service';
 @Module({
   imports: [
     CasbinModule.register({
-      model: 'model.conf',
+      model: process.env.MODEL_CONFIG_PATH,
       policy: AdapterService.newAdapter(),
       userFromContext: (ctx) => {
         const request = ctx.switchToHttp().getRequest();

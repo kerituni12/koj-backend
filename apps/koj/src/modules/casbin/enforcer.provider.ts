@@ -14,7 +14,7 @@ export const enforcerProvider = {
     return context.with(trace.setSpan(context.active(), span), async () => {
       const policyAdapter = await AdapterService.newAdapter();
       const e = await casbin.newEnforcer();
-      e.initWithAdapter('model.conf', policyAdapter);
+      e.initWithAdapter(process.env.MODEL_CONFIG_PATH, policyAdapter);
       span.end();
       return e;
     });
