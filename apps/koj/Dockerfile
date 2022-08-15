@@ -24,13 +24,17 @@ WORKDIR /app
 
 RUN apt-get update
 RUN apt-get install -y openssl
+RUN apt-get install -y libpq-dev g++ make
+RUN apt-get update && \
+    apt-get install -y python3 && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN npm i -g pnpm@7
 
 ENV NODE_ENV production
 
 COPY  .npmrc pnpm-lock.yaml ./
-COPY --from=build /app/apps/koj/package.json ./
+COPY --from=build /app/dist/apps/koj/package.json ./
 COPY --from=build /app/dist/apps/koj ./dist
 
 RUN  pnpm install --prod
