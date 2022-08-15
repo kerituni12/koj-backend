@@ -1,8 +1,8 @@
-import { Span, TraceService } from "nestjs-otel";
+import { Span, TraceService } from 'nestjs-otel';
 // import { Span } from '@koj/instrumentation';
-import { ClientNats } from "@nestjs/microservices";
-import { Args, Resolver, ResolveField } from "@nestjs/graphql";
-import { Inject, UseGuards, BadRequestException } from "@nestjs/common";
+import { ClientNats } from '@nestjs/microservices';
+import { Args, Resolver, ResolveField } from '@nestjs/graphql';
+import { Inject, UseGuards, BadRequestException } from '@nestjs/common';
 
 import {
   COMMENT_CREATE,
@@ -10,37 +10,37 @@ import {
   COMMENT_VOTE,
   USER_FIND_MANY,
   USER_FIND_UNIQUE
-} from "@koj/common/constants";
-import { RPCTraceClientProxy } from "@koj/instrumentation";
-import { GqlAuthGuard, GqlPolicyGuard } from "@koj/common/guards";
+} from '@koj/common/constants';
+import { RPCTraceClientProxy } from '@koj/instrumentation';
+import { GqlAuthGuard, GqlPolicyGuard } from '@koj/common/guards';
 
-import { Comment } from "./comment.model";
-import { CommentMutations } from "./comment.types";
-import { Permissions } from "../casbin/permisions.decorator";
-import { CommentCreateInput } from "./dto/comment-create.input";
-import { CommentVoteInput } from "./dto/comment-vote.input";
-import { CommentCreateResult } from "./dto/comment-create.model";
-import { CommentCreateTransaction } from "./comment-create.transaction";
-import { GqlContext } from "@/decorators/gql-context.decorator";
+import { Comment } from './comment.model';
+import { CommentMutations } from './comment.types';
+import { Permissions } from '../casbin/permisions.decorator';
+import { CommentCreateInput } from './dto/comment-create.input';
+import { CommentVoteInput } from './dto/comment-vote.input';
+import { CommentCreateResult } from './dto/comment-create.model';
+import { CommentCreateTransaction } from './comment-create.transaction';
+import { GqlContext } from '@/decorators/gql-context.decorator';
 
 @Resolver(() => CommentMutations)
 export class CommentMutationResolver {
   constructor(
-    @Inject("COMMENT_SERVICE") private readonly commentClient: ClientNats,
-    @Inject("USER_SERVICE") private readonly userClient: ClientNats,
+    @Inject('COMMENT_SERVICE') private readonly commentClient: ClientNats,
+    @Inject('USER_SERVICE') private readonly userClient: ClientNats,
     private traceClient: RPCTraceClientProxy,
-    private commentCreateTransaction: CommentCreateTransaction,
+    // private commentCreateTransaction: CommentCreateTransaction,
     private readonly traceService: TraceService
   ) {}
 
   @ResolveField(() => CommentCreateResult, { nullable: true })
   @UseGuards(GqlAuthGuard, GqlPolicyGuard)
   @Permissions({
-    action: "create",
-    resource: "challenge"
+    action: 'create',
+    resource: 'challenge'
   })
   @Span()
-  async create(@Args("data") data: CommentCreateInput, @GqlContext() context) {
+  async create(@Args('data') data: CommentCreateInput, @GqlContext() context) {
     const { createdById, createdByUsername, createdByName, domainId } =
       context.data;
 
@@ -66,9 +66,18 @@ export class CommentMutationResolver {
     data.domainId = domainId;
 
     // case root comment and increase comment count of post service
-    if (typeof data.challengeId !== "undefined") {
-      const result: any = await this.commentCreateTransaction.run(data);
-      return result.result?.["CreateComment"];
+    if (typeof data.challengeId !== 'undefined') {
+      const result = await this.traceClient.send(
+        this.commentClient,
+        COMMENT_CREATE,
+        data
+      );
+      console.log(
+        '🚀 ~ file: comment.mutation.ts ~ line 75 ~ CommentMutationResolver ~ create ~ result',
+        result
+      );
+      // const result: any = await this.commentCreateTransaction.run(data);
+      return result;
     }
 
     // case internal comment servivices
@@ -78,11 +87,11 @@ export class CommentMutationResolver {
   @ResolveField(() => Comment)
   @UseGuards(GqlAuthGuard, GqlPolicyGuard)
   @Permissions({
-    action: "create",
-    resource: "challenge"
+    action: 'create',
+    resource: 'challenge'
   })
   @Span()
-  async vote(@Args("data") data: CommentVoteInput, @GqlContext() context) {
+  async vote(@Args('data') data: CommentVoteInput, @GqlContext() context) {
     Object.assign(data, context.data);
     data.userId = context.data?.createdById;
     return this.traceClient.send(this.commentClient, COMMENT_VOTE, data);
@@ -91,11 +100,11 @@ export class CommentMutationResolver {
   @ResolveField(() => Boolean)
   @UseGuards(GqlAuthGuard, GqlPolicyGuard)
   @Permissions({
-    action: "create",
-    resource: "challenge"
+    action: 'create',
+    resource: 'challenge'
   })
   @Span()
-  async unVote(@Args("data") data: CommentVoteInput, @GqlContext() context) {
+  async unVote(@Args('data') data: CommentVoteInput, @GqlContext() context) {
     Object.assign(data, context.data);
     data.userId = context.data?.createdById;
     return this.traceClient.send(this.commentClient, COMMENT_UNVOTE, data);

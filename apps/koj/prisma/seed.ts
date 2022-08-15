@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@koj-prisma/koj';
 import { languages } from './data/language';
 import { status } from './data/status';
 import { challenges } from './data/challenge';

@@ -19,7 +19,6 @@ import {
 } from '@koj/common/guards';
 
 import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
 import { GoogleService } from './provider/google.service';
 import { GithubService } from './provider/github.service';
 import { PermissionService } from '../casbin/permission/permission.service';
@@ -38,7 +37,6 @@ export interface RequestWithUser extends Request {
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private githubService: GithubService,
     private googleService: GoogleService,
     private readonly permissionSerivce: PermissionService
@@ -62,46 +60,7 @@ export class AuthController {
   @Get('refresh')
   @UseGuards(JwtRefreshGuard)
   async refresh(@Req() request: RequestWithUser) {
-    const $user = request.user as UserCustom;
-    const user = (await this.userService.findUnique({
-      id: $user.userId
-    })) as UserCustom;
-
-    const [accessToken, refreshToken] = await this.authService.generateToken(
-      user
-    );
-
-    const [accessTokenHeader, accessTokenPayload, accessTokenSignature] =
-      accessToken.split('.');
-    const [refreshTokenHeader, refreshTokenPayload, refreshTokenSignature] =
-      refreshToken.split('.');
-
-    const accessTokenCookieOptions =
-      this.authService.getJwtAccessTokenOptions();
-    const refreshTokenCookieOptions =
-      this.authService.getJwtRefreshTokenOptions();
-
-    request.res.cookie(
-      'a_sign',
-      accessTokenSignature,
-      accessTokenCookieOptions
-    );
-    request.res.cookie(
-      'r_sign',
-      refreshTokenSignature,
-      refreshTokenCookieOptions
-    );
-    request.res.cookie('a_header', accessTokenHeader, accessTokenCookieOptions);
-    request.res.cookie(
-      'r_header',
-      refreshTokenHeader,
-      refreshTokenCookieOptions
-    );
-
-    return {
-      accessTokenPayload,
-      refreshTokenPayload
-    };
+    return this.authService.refreshToken(request.user, request);
   }
 
   @Post('google')

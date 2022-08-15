@@ -4,7 +4,7 @@
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
-import { PrismaService } from '@/koj.prisma.service';
+import { PrismaService } from 'nestjs-prisma';
 import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app/app.module';

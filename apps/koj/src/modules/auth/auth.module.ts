@@ -9,7 +9,6 @@ import { SecurityConfig } from '@/interfaces/config.interface';
 
 import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
-import { UserService } from '../user/user.service';
 import { CasbinModule } from '../casbin/casbin.module';
 import {
   GithubGuard,
@@ -17,6 +16,9 @@ import {
   GqlAuthGuard,
   GqlPolicyGuard
 } from '@koj/common/guards';
+
+import { RPCTraceClientProxy } from '@koj/instrumentation';
+
 import { AuthMutationsResolver } from './auth.mutation';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PasswordService } from '../user/password.service';
@@ -28,6 +30,7 @@ import { LoggerModule } from '@/logger/logger.module';
 import { Githubstrategy, GoogleAuthStrategy } from '@koj/common/strategies';
 import { GoogleService } from './provider/google.service';
 import { GithubService } from './provider/github.service';
+import { PrismaService } from '@/koj.prisma.service';
 
 @Module({
   imports: [
@@ -76,9 +79,10 @@ import { GithubService } from './provider/github.service';
     GqlAuthGuard,
     GqlPolicyGuard,
     PasswordService,
-    UserService,
     GoogleService,
-    GithubService
+    GithubService,
+    RPCTraceClientProxy,
+    PrismaService
   ],
   controllers: [AuthController],
   exports: [GqlAuthGuard, GqlPolicyGuard]

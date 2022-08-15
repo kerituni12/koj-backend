@@ -14,10 +14,9 @@ import { User } from '@koj/generated/user/user.model';
 import { RPCTraceClientProxy } from '@koj/instrumentation';
 import { encrypt, encryptedData } from '@/utils/crypto.util';
 import { SecurityConfig } from '@/interfaces/config.interface';
-import { USER_FIND_UNIQUE } from '@koj/common/constants';
+import { USER_FIND_UNIQUE, USER_CREATE } from '@koj/common/constants';
 
 import { SignupInput } from './dto/signup.input';
-import { UserService } from '../user/user.service';
 import { PasswordService } from '../user/password.service';
 import { PermissionService } from '../casbin/permission/permission.service';
 
@@ -27,14 +26,14 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService,
     private readonly configService: ConfigService,
-    private readonly userService: UserService,
     private readonly permissionSerivce: PermissionService,
     private traceClient: RPCTraceClientProxy,
     @Inject('USER_SERVICE') private readonly userClient: ClientNats
   ) {}
 
   async register(data: SignupInput): Promise<User> {
-    return this.userService.create(data);
+    // return this.userService.create(data);
+    return this.traceClient.send(this.userClient, USER_CREATE, { data });
   }
 
   async login(user, request) {
@@ -83,6 +82,52 @@ export class AuthService {
     console.log(data);
   }
 
+  async refreshToken(user, request) {
+    // const user$ = (await this.userService.findUnique({
+    //   id: user.userId
+    // })) ;
+
+    const user$ = await this.traceClient.send(
+      this.userClient,
+      USER_FIND_UNIQUE,
+      {
+        where: { id: user.userId }
+      }
+    );
+
+    const [accessToken, refreshToken] = await this.generateToken(user$);
+
+    const [accessTokenHeader, accessTokenPayload, accessTokenSignature] =
+      accessToken.split('.');
+    const [refreshTokenHeader, refreshTokenPayload, refreshTokenSignature] =
+      refreshToken.split('.');
+
+    const accessTokenCookieOptions = this.getJwtAccessTokenOptions();
+    const refreshTokenCookieOptions = this.getJwtRefreshTokenOptions();
+
+    request.res.cookie(
+      'a_sign',
+      accessTokenSignature,
+      accessTokenCookieOptions
+    );
+    request.res.cookie(
+      'r_sign',
+      refreshTokenSignature,
+      refreshTokenCookieOptions
+    );
+    request.res.cookie('a_header', accessTokenHeader, accessTokenCookieOptions);
+    request.res.cookie(
+      'r_header',
+      refreshTokenHeader,
+      refreshTokenCookieOptions
+    );
+
+    return {
+      accessTokenPayload,
+      refreshTokenPayload
+    };
+  }
+
   async getAuthenticatedData(user: User) {
     // try {}
     const [accessToken, refreshToken] = await this.generateToken(user);
@@ -101,10 +146,21 @@ export class AuthService {
     return tracer.startActiveSpan(
       this.getAuthenticatedUser.name,
       async (span) => {
-        const user = (await this.userService.getUserByEmail({
-          email,
-          domainId
-        })) as User;
+        // const user = (await this.userService.getUserByEmail({
+        //   email,
+        //   domainId
+        // })) as User;
+
+        const user = await this.traceClient.send(
+          this.userClient,
+          USER_FIND_UNIQUE,
+          {
+            where: {
+              email,
+              domainId
+            }
+          }
+        );
 
         if (!user) {
           const error = new UnauthorizedException({
@@ -209,16 +265,16 @@ export class AuthService {
     });
   }
 
-  async refreshToken(userId: number) {
-    try {
-      const user = (await this.userService.getUserById(userId)) as User;
-      const [accessToken, refreshToken] = await this.generateToken(user);
-      return { accessToken, refreshToken };
-    } catch (e) {
-      console.log(e);
-      // throw new UnauthorizedException();
-    }
-  }
+  // async refreshToken(userId: number) {
+  //   try {
+  //     const user = (await this.userService.getUserById(userId)) as User;
+  //     const [accessToken, refreshToken] = await this.generateToken(user);
+  //     return { accessToken, refreshToken };
+  //   } catch (e) {
+  //     console.log(e);
+  //     // throw new UnauthorizedException();
+  //   }
+  // }
 
   public getJwtAccessTokenOptions(): CookieOptions {
     const globalPrefix = this.configService.get('app.globalPrefix');

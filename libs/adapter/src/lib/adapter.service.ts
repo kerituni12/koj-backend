@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Adapter, Helper, Model } from 'casbin';
 import { Injectable, NotImplementedException } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@koj-prisma/koj';
 
 @Injectable()
 export class AdapterService implements Adapter {
@@ -23,7 +23,7 @@ export class AdapterService implements Adapter {
   async loadPolicy(model: Model): Promise<void> {
     const [policies, roles] = await Promise.all([
       this.prisma.policy.findMany(),
-      this.prisma.roleGroup.findMany(),
+      this.prisma.roleGroup.findMany()
     ]);
 
     for (const policy of policies) {
@@ -39,7 +39,7 @@ export class AdapterService implements Adapter {
   }
 
   static async newAdapter(
-    option?: Prisma.PrismaClientOptions | PrismaClient,
+    option?: Prisma.PrismaClientOptions | PrismaClient
   ): Promise<AdapterService> {
     const a = new AdapterService(option);
 
@@ -73,7 +73,7 @@ export class AdapterService implements Adapter {
         line.effect,
         line.effectWith,
         line.condition,
-        line.domainId,
+        line.domainId
       ].join(', ');
     Helper.loadPolicyLine(result, model);
   };

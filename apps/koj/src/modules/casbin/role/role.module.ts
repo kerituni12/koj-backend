@@ -8,6 +8,7 @@ import { RoleGroupService } from './role.service';
 import { RoleGroupResolver } from './role.resolver';
 import { enforcerProvider } from '../enforcer.provider';
 import { RoleGroupMutationResolver } from './ role.mutation';
+import { PrismaService } from '@/koj.prisma.service';
 
 console.log(path.resolve('model.conf'));
 
@@ -23,7 +24,12 @@ console.log(path.resolve('model.conf'));
       enforcerProvider: enforcerProvider
     })
   ],
-  providers: [RoleGroupResolver, RoleGroupMutationResolver, RoleGroupService],
+  providers: [
+    RoleGroupResolver,
+    RoleGroupMutationResolver,
+    RoleGroupService,
+    PrismaService
+  ],
   exports: [RoleGroupResolver, RoleGroupMutationResolver, RoleGroupService]
 })
 export class RoleGroupModule {}

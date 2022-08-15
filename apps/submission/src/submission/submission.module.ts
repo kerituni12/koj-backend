@@ -6,6 +6,7 @@ import { SubmissionController } from './submission.controller';
 import { LoggerModule } from 'nestjs-pino';
 import { SubmissionStatisticController } from './submission-statistic.controller';
 import { SubmissionStatisticService } from './submission-statistic.service';
+import { PrismaService } from '../submission.prisma.service';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { SubmissionStatisticService } from './submission-statistic.service';
     })
   ],
   controllers: [SubmissionController, SubmissionStatisticController],
-  providers: [SubmissionService, SubmissionStatisticService]
+  providers: [SubmissionService, SubmissionStatisticService, PrismaService]
 })
 export class AppModule {}

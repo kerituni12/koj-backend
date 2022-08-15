@@ -9,21 +9,23 @@ import {
   HttpStatus,
   InternalServerErrorException,
   BadRequestException,
-  ConflictException,
+  ConflictException
 } from '@nestjs/common';
 
 import { GqlExceptionFilter, GqlContextType } from '@nestjs/graphql';
 import { context, trace } from '@opentelemetry/api';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@koj-prisma/koj';
 
 const defaultInternalException = {
   message: 'Co loi tu he thong',
   statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-  level: 'error',
+  level: 'error'
 };
 
 @Catch()
-export class AllExceptionsFilter implements ExceptionFilter, GqlExceptionFilter {
+export class AllExceptionsFilter
+  implements ExceptionFilter, GqlExceptionFilter
+{
   catch(exception: any, host: ArgumentsHost) {
     const span = tracer.startSpan('exception');
     trace.setSpan(context.active(), span);
@@ -31,7 +33,7 @@ export class AllExceptionsFilter implements ExceptionFilter, GqlExceptionFilter 
 
     console.log(
       '🚀 ~ file: exceptions.ts ~ line 18 ~ AllExceptionsFilter ~ exception',
-      exception,
+      exception
     );
 
     if (exception instanceof Prisma.PrismaClientValidationError) {
@@ -44,7 +46,7 @@ export class AllExceptionsFilter implements ExceptionFilter, GqlExceptionFilter 
       } else {
         exception = new InternalServerErrorException({
           ...defaultInternalException,
-          info: exception.code,
+          info: exception.code
         });
       }
     }
@@ -61,7 +63,7 @@ export class AllExceptionsFilter implements ExceptionFilter, GqlExceptionFilter 
       const { level = 'unset', ...execptionResponse } = exception.getResponse();
       execptionResponse.statusCode = statusCode;
       span.setAttributes({
-        exceptionLevel: level,
+        exceptionLevel: level
       });
       span.end();
       return new HttpException(execptionResponse, statusCode);
@@ -70,7 +72,7 @@ export class AllExceptionsFilter implements ExceptionFilter, GqlExceptionFilter 
     const { level = 'unset', ...execptionResponse } = exception.getResponse();
     const response = ctx.getResponse();
     span.setAttributes({
-      exceptionLevel: level,
+      exceptionLevel: level
     });
     span.end();
     return response.status(statusCode).json(execptionResponse);

@@ -12,6 +12,7 @@ import { enforcerProvider } from '../casbin/enforcer.provider';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { natsConfig } from '@/configs/nats.config';
 import { RPCTraceClientProxy } from '@koj/instrumentation';
+import { PrismaService } from '@/koj.prisma.service';
 
 @Module({
   imports: [
@@ -21,22 +22,28 @@ import { RPCTraceClientProxy } from '@koj/instrumentation';
         transport: Transport.NATS,
         options: {
           servers: natsConfig.servers,
-          queue: 'role_queue',
-        },
-      },
+          queue: 'role_queue'
+        }
+      }
     ]),
     CasbinModule.register({
       enforcerProvider: enforcerProvider,
       userFromContext: function (context: ExecutionContext): string {
         throw new Error('Function not implemented.');
-      },
+      }
     }),
     PolicyModule,
     RoleGroupModule,
-    LoggerModule,
+    LoggerModule
   ],
 
-  providers: [RoleResolver, RoleMutationsResolver, RoleService, RPCTraceClientProxy],
-  exports: [RoleResolver, RoleMutationsResolver, RoleService],
+  providers: [
+    RoleResolver,
+    RoleMutationsResolver,
+    RoleService,
+    RPCTraceClientProxy,
+    PrismaService
+  ],
+  exports: [RoleResolver, RoleMutationsResolver, RoleService]
 })
 export class RoleModule {}

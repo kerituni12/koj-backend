@@ -31,7 +31,14 @@ export class AppController {
 
   @MessagePattern(USER_FIND_UNIQUE)
   m_getUserById(@Payload() payload) {
+    console.log(
+      '🚀 ~ file: user.controller.ts ~ line 28 ~ AppController ~ m_getUserByUsername ~ payload',
+      payload
+    );
     const { where, select } = payload;
+    if (where.email) {
+      return this.userService.getUserByEmail(where, select);
+    }
     return this.userService.getUserById(where.id, select);
   }
 

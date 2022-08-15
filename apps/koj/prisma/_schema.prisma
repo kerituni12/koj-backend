@@ -4,8 +4,13 @@
 // DO NOT MANUALLY EDIT THIS FILE!
 // -------------------------------------
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 generator koj {
   provider = "prisma-client-js"
+  output   = "../../../node_modules/@koj-prisma/koj"
 }
 
 datasource db {
@@ -110,34 +115,4 @@ model RoleGroup {
   domainId Int     @default(0) @map("domain_id")
 
   @@map("casbin_role")
-}
-
-model User {
-  id                Int       @id @default(autoincrement())
-  email             String    @default("")
-  username          String    @default("")
-  /// @HideField()
-  password          String    @default("")
-  firstname         String    @default("")
-  lastname          String    @default("")
-  status            String    @default("disabled")
-  role              String    @default("user")
-  avatar            String?
-  provider          String    @default("koj")
-  /// @HideField({input: true, output:true})
-  domainId          Int       @default(0) @map("domain_id")
-  /// @HideField({input: true, output:true})
-  createdById       Int?      @map("created_by_id")
-  /// @HideField({input: true})
-  createdByUsername String?   @map("created_by_username")
-  createdByName     String?   @map("created_by_name")
-  /// @HideField({input: true})
-  createdAt         DateTime  @default(now()) @map("created_at")
-  /// @HideField({input: true})
-  updatedAt         DateTime? @map("updated_at")
-  extendData        Json?     @map("extend_data")
-
-  @@unique([username, domainId])
-  @@unique([email, domainId])
-  @@map("user")
 }

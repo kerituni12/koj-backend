@@ -1,5 +1,5 @@
 import * as casbin from 'casbin';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@koj-prisma/koj';
 import { compile } from 'expression-eval';
 import { PrismaService } from '@/koj.prisma.service';
 import {

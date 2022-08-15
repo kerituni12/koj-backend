@@ -1,5 +1,5 @@
 import slugify from 'slugify';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@koj-prisma/koj';
 import { PrismaService } from '@/koj.prisma.service';
 import {
   ConflictException,

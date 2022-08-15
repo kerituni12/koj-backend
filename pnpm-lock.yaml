@@ -153,10 +153,6 @@ dependencies:
   '@paljs/plugins': 4.1.0_graphql@15.8.0
   '@prisma/client': 3.15.2_prisma@3.15.2
   '@supercharge/request-ip': 1.2.0
-  '@types/graphql': 14.5.0
-  '@types/graphql-type-json': 0.3.2
-  '@types/passport-jwt': 3.0.6
-  '@types/reflect-metadata': 0.1.0
   apollo-server-express: 3.10.0_jfj6k5cqxqbusbdzwqjdzioxzm
   archiver: 5.3.1
   bcrypt: 5.0.1
@@ -227,10 +223,14 @@ devDependencies:
   '@types/bull': 3.15.8
   '@types/cookie-parser': 1.4.3
   '@types/dockerode': 3.3.9
+  '@types/graphql': 14.5.0
+  '@types/graphql-type-json': 0.3.2
   '@types/jest': 27.0.2
   '@types/multer': 1.4.7
   '@types/node': 16.11.46
+  '@types/passport-jwt': 3.0.6
   '@types/pino': 7.0.5
+  '@types/reflect-metadata': 0.1.0
   '@types/unzipper': 0.10.5
   '@typescript-eslint/eslint-plugin': 5.10.2_6x44cdutuocqkurfvxjk3z6r4a
   '@typescript-eslint/parser': 5.10.2_valmiib6gbzc7jhcbpocdsabay
@@ -3788,14 +3788,14 @@ packages:
     resolution: {integrity: sha512-c1cq4o8EhY0Z39ua8UXwG8uBs23xBYA/Uw0tXFl6SuTUpkVv/IJqf6pHQbfdC7nwFRhX2ifTOV/UIg0Q/IJsbg==}
     dependencies:
       graphql: 14.7.0
-    dev: false
+    dev: true
 
   /@types/graphql/14.5.0:
     resolution: {integrity: sha512-MOkzsEp1Jk5bXuAsHsUi6BVv0zCO+7/2PTiZMXWDSsMXvNU6w/PLMQT2vHn8hy2i0JqojPz1Sz6rsFjHtsU0lA==}
     deprecated: This is a stub types definition. graphql provides its own type definitions, so you do not need this installed.
     dependencies:
       graphql: 15.8.0
-    dev: false
+    dev: true
 
   /@types/hapi__catbox/10.2.4:
     resolution: {integrity: sha512-A6ivRrXD5glmnJna1UAGw87QNZRp/vdFO9U4GS+WhOMWzHnw+oTGkMvg0g6y1930CbeheGOCm7A1qHsqH7AXqg==}
@@ -3881,7 +3881,6 @@ packages:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
       '@types/node': 16.11.46
-    dev: false
 
   /@types/keygrip/1.0.2:
     resolution: {integrity: sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw==}
@@ -3975,20 +3974,20 @@ packages:
       '@types/express': 4.17.13
       '@types/jsonwebtoken': 8.5.8
       '@types/passport-strategy': 0.2.35
-    dev: false
+    dev: true
 
   /@types/passport-strategy/0.2.35:
     resolution: {integrity: sha512-o5D19Jy2XPFoX2rKApykY15et3Apgax00RRLf0RUotPDUsYrQa7x4howLYr9El2mlUApHmCMv5CZ1IXqKFQ2+g==}
     dependencies:
       '@types/express': 4.17.13
       '@types/passport': 1.0.9
-    dev: false
+    dev: true
 
   /@types/passport/1.0.9:
     resolution: {integrity: sha512-9+ilzUhmZQR4JP49GdC2O4UdDE3POPLwpmaTC/iLkW7l0TZCXOo1zsTnnlXPq6rP1UsUZPfbAV4IUdiwiXyC7g==}
     dependencies:
       '@types/express': 4.17.13
-    dev: false
+    dev: true
 
   /@types/pg-pool/2.0.3:
     resolution: {integrity: sha512-fwK5WtG42Yb5RxAwxm3Cc2dJ39FlgcaNiXKvtTLAwtCn642X7dgel+w1+cLWwpSOFImR3YjsZtbkfjxbHtFAeg==}
@@ -4038,7 +4037,7 @@ packages:
     deprecated: This is a stub types definition for reflect-metadata (https://github.com/rbuckton/ReflectDecorators). reflect-metadata provides its own type definitions, so you don't need @types/reflect-metadata installed!
     dependencies:
       reflect-metadata: 0.1.13
-    dev: false
+    dev: true
 
   /@types/restify/4.3.8:
     resolution: {integrity: sha512-BdpKcY4mnbdd7RNLfVRutkUtI1tGKMbQVKm7YgWi4kTlRm3Z4hh+F+1R1va/PZmkkk0AEt7kP82qi1jcF6Hshg==}
@@ -6920,7 +6919,7 @@ packages:
     engines: {node: '>= 6.x'}
     dependencies:
       iterall: 1.3.0
-    dev: false
+    dev: true
 
   /graphql/15.8.0:
     resolution: {integrity: sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==}

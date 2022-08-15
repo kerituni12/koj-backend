@@ -63,8 +63,11 @@ export class UserService {
     email_domainId: UserEmailDomainIdCompoundUniqueInput,
     select?: Prisma.UserSelect
   ) {
-    const whereCondition: UserWhereUniqueInput = { email_domainId };
-    return this.prisma.user.findUnique({ where: whereCondition, select });
+    console.log(
+      '🚀 ~ file: user.service.ts ~ line 64 ~ UserService ~ email_domainId',
+      email_domainId
+    );
+    return this.prisma.user.findUnique({ where: { email_domainId }, select });
   }
 
   update(data: UserUpdateInput, where: UserWhereUniqueInput): Promise<User> {

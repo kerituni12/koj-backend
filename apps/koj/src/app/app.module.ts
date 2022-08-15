@@ -29,6 +29,7 @@ import { KafkaModule } from '@/kafka/kafka.module';
 import { DateScalar } from '@/grapqhl-scalar';
 import { SubmissionModule } from '@/modules/submission/submission.module';
 import { SubmissionStatisticModule } from '@/modules/submission-statistic/submission-statistic.module';
+import { PrismaService } from '@/koj.prisma.service';
 
 @Module({
   imports: [
@@ -47,12 +48,12 @@ import { SubmissionStatisticModule } from '@/modules/submission-statistic/submis
     OpenTelemetryModule.forRoot(),
     RedisModule.forRoot({
       config: {
-        host: 'localhost',
-        port: 6379
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT)
       }
     }),
     LoggerModule,
-    KafkaModule,
+    // KafkaModule,
     AuthModule,
 
     RoleModule,
@@ -69,12 +70,14 @@ import { SubmissionStatisticModule } from '@/modules/submission-statistic/submis
   controllers: [AppController, RoleController],
   providers: [
     AppService,
-    DateScalar
+    DateScalar,
+    PrismaService
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: ErrorsInterceptor,
     // },
-  ]
+  ],
+  exports: [PrismaService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

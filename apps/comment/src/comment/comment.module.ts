@@ -11,20 +11,20 @@ import { CommentService } from './comment.service';
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
-      connectTimeoutMS: 5000,
-      socketTimeoutMS: 5000,
-      keepAlive: false,
-      // readPreference: 'secondary',
-      // w: 0,
-      wtimeoutMS: 5000,
-      waitQueueTimeoutMS: 5000,
+      useNewUrlParser: true
+      // useUnifiedTopology: true,
+      // serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+      // connectTimeoutMS: 5000,
+      // socketTimeoutMS: 5000,
+      // keepAlive: false,
+      // // readPreference: 'secondary',
+      // // w: 0,
+      // wtimeoutMS: 5000,
+      // waitQueueTimeoutMS: 5000,
 
-      // retryWrites: true,
-      // retryWrites: false,
-      readPreference: 'secondaryPreferred'
+      // // retryWrites: true,
+      // // retryWrites: false,
+      // readPreference: 'secondaryPreferred'
       // replicaSet: 'dbrs',
     }),
     MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),

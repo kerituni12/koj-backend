@@ -1,6 +1,6 @@
 {
   "app": {
-    "inputs": ["koj.prisma", "auth.prisma", "user-model.prisma"],
+    "inputs": ["koj.prisma", "auth.prisma"],
     "output": "_schema.prisma"
   }
 }
