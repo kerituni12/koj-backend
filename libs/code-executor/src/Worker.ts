@@ -1,12 +1,12 @@
-import Docker from "dockerode";
-import Bull from "bull";
+import Docker from 'dockerode';
+import Bull from 'bull';
 
-import Runner from "./Runner";
-import Builder from "./Builder";
+import Runner from './Runner';
+import Builder from './Builder';
 
-import { RunnerOpts, Result } from "./types";
-import logger from "./utils/logger";
-import { ResponseData } from "./types";
+import { RunnerOpts, Result } from './types';
+import logger from './utils/logger';
+import { ResponseData } from './types';
 
 export default class Worker {
   private runner: Runner;
@@ -31,7 +31,7 @@ export default class Worker {
     this.queue = new Bull(name, redis, {
       defaultJobOptions: { attempts: 3, timeout: 60000 }
     });
-    this.folderPath = folderPath || "/tmp/code-exec";
+    this.folderPath = folderPath || '/tmp/code-exec';
   }
 
   private async work(codeOptions: RunnerOpts): Promise<ResponseData> {
@@ -52,8 +52,8 @@ export default class Worker {
     }
   }
 
-  async build(langs?: Array<string>) {
-    await this.builder.build(langs);
+  async build(langs?: Array<string>, architect?: string) {
+    await this.builder.build(langs, architect);
   }
 
   start() {

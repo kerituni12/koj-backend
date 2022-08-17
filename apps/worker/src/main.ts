@@ -1,5 +1,5 @@
-import { Worker, languages } from "@koj/code-executor";
-import logger from "./logger";
+import { Worker, languages } from '@koj/code-executor';
+import logger from './logger';
 
 /**
  * name, redis, folderPath, default folderPath is /tmp/code-exec
@@ -7,16 +7,21 @@ import logger from "./logger";
  * the code and testcases will be saved here)
  */
 const worker = new Worker(
-  "myExecutor",
-  "redis://127.0.0.1:6379",
-  "./transform-worker.js"
+  'oj-executor',
+  process.env.REDIS_URL,
+  './transform-worker.js'
 );
 
 async function main() {
   logger.info(languages);
 
   /* array of languages is optional argument */
-  await worker.build(["Cplusplus", "Javascript"]);
+  const buildLanguages = process.env.LANGUAGES.split(/,\s*/);
+  const ignoreBuild = process.env.IGNORE_BUILD;
+
+  if (!ignoreBuild) {
+    await worker.build(buildLanguages, process.env.BUILD_ARCHITECT);
+  }
 
   worker.start();
 

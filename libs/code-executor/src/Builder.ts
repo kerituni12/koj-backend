@@ -10,7 +10,7 @@ export default class Builder {
     this.docker = docker;
   }
 
-  async build(langs?: Array<string>): Promise<void> {
+  async build(langs?: Array<string>, architect?: string): Promise<void> {
     const supportedLanguages = Object.keys(extension);
     const languages = langs || supportedLanguages;
     const streams: Promise<NodeJS.ReadableStream>[] = [];
@@ -23,12 +23,15 @@ export default class Builder {
           this.docker.buildImage(
             {
               context: path.join(__dirname, 'langs', lang),
-              src: ['Dockerfile', 'start.sh'],
+              src: [
+                architect === 'arm64' ? 'Dockerfile-arm64' : 'Dockerfile',
+                'start.sh'
+              ]
             },
             {
-              t: `${lang.toLowerCase()}-runnerx`,
-            },
-          ),
+              t: `${lang.toLowerCase()}-runnerx`
+            }
+          )
         );
       } else {
         logger.error(`${lang} is not supported`);
@@ -45,18 +48,21 @@ export default class Builder {
 
       progress.push(
         new Promise((resolve, reject) => {
-          this.docker.modem.followProgress(stream, (err: Error, res: Array<object>) => {
-            if (err) {
-              console.log(
-                '🚀 ~ file: Builder.ts ~ line 46 ~ Builder ~ progress.push ~ err',
-                err,
-              );
-              reject(err);
-            } else {
-              resolve(res);
+          this.docker.modem.followProgress(
+            stream,
+            (err: Error, res: Array<object>) => {
+              if (err) {
+                console.log(
+                  '🚀 ~ file: Builder.ts ~ line 46 ~ Builder ~ progress.push ~ err',
+                  err
+                );
+                reject(err);
+              } else {
+                resolve(res);
+              }
             }
-          });
-        }),
+          );
+        })
       );
     });
 
