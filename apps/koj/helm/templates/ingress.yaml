@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-edicode
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.edicode.dev
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: koj-service
+                port:
+                  number: 80

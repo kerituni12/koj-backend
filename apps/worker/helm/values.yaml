@@ -1,0 +1,12 @@
+image: kerituni12/worker:1.1
+pullPolicy: Always
+redis:
+  url: "redis://redis:6379"
+nats:
+  url: "nats://nats.nats:4222"
+app:
+  name: worker
+build:
+  architect: arm64
+  languages: Cplusplus, Javascript
+  ignore: true

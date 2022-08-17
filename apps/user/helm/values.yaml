@@ -2,9 +2,10 @@ image: kerituni12/user:1.1
 pullPolicy: Always
 storageClassName: longhorn
 postgres:
-  url: postgresql://eadmin:Random123%40@edicode.dev:5432/user
+  url: "postgresql://eadmin:Random123%40@edicode.dev:5432/user?connect_timeout=300"
 nats:
   url: "nats://nats.nats:4222"
 app:
   name: user
-  port: 3001
+  port: 80
+  targetPort: 3000

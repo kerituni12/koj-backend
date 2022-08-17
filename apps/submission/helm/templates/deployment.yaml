@@ -19,10 +19,10 @@ spec:
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.app.port }}
+            - containerPort: {{ .Values.app.targetPort }}
           env:
             - name: PORT
-              value: "{{ .Values.app.port }}"
+              value: "{{ .Values.app.targetPort }}"
             - name: NATS_URL
               value: {{ .Values.nats.url }}
             - name: POSTGRES_URL
@@ -39,7 +39,7 @@ spec:
   ports:
     - protocol: TCP
       port: {{ .Values.app.port}}
-      targetPort: {{ .Values.app.port}}
+      targetPort: {{ .Values.app.targetPort}}
 
 # apiVersion: v1
 # kind: ConfigMap

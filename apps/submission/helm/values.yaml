@@ -2,9 +2,10 @@ image: kerituni12/submission:1.1
 pullPolicy: Always
 storageClassName: longhorn
 postgres:
-  url: postgresql://eadmin:Random123%40@edicode.dev:5432/submission
+  url: "postgresql://eadmin:Random123%40@edicode.dev:5432/submission?connect_timeout=300"
 nats:
   url: "nats://nats.nats:4222"
 app:
   name: submission
-  port: 3003
+  port: 80
+  targetPort: 3000
