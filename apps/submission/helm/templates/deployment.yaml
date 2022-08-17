@@ -14,12 +14,21 @@ spec:
       labels:
         app: {{ .Values.app.name }}
     spec:
+      securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
       containers:
         - name: {{ .Values.app.name }}
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.app.targetPort }}
+          volumeMounts:
+            - name: code-executor
+              mountPath: {{ .Values.app.basePath }}
+            - name: dockersock
+              mountPath: "/var/run/docker.sock"
           env:
             - name: PORT
               value: "{{ .Values.app.targetPort }}"
@@ -28,8 +37,17 @@ spec:
             - name: POSTGRES_URL
               value: {{ .Values.postgres.url }} 
             - name: REDIS_URL
-              value: {{ .Values.redis.url }}           
-
+              value: {{ .Values.redis.url }}
+            - name: BASE_PATH
+              value: {{ .Values.app.basePath }}
+            
+      volumes:
+        - name: code-executor
+          persistentVolumeClaim:
+            claimName: code-executor
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock  
 ---
 apiVersion: v1
 kind: Service

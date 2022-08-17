@@ -11,3 +11,4 @@ app:
   name: submission
   port: 80
   targetPort: 3000
+  basePath: /code-executor

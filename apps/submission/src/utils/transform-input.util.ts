@@ -1,5 +1,5 @@
 import fs from 'fs';
-const ws = fs.createWriteStream('./newtransform.in');
+// const ws = fs.createWriteStream('./newtransform.in');
 
 const inputSchema = {
   name: 'custom',
@@ -12,49 +12,49 @@ const inputSchema = {
           name: 'listt',
           comment: 'an listt',
           type: { main: 'ARRAY', encapsulated: { main: 'INTEGER' } },
-          formatStyle: 'DEFAULT',
-        },
-      ],
-    },
+          formatStyle: 'DEFAULT'
+        }
+      ]
+    }
   ],
   inputs: [
     {
       name: 'size',
       comment: 'size',
       type: { main: 'INTEGER' },
-      formatStyle: 'DEFAULT',
+      formatStyle: 'DEFAULT'
     },
     {
       name: 'a struct',
       comment: 'a struct',
       type: { main: 'OBJECT', structName: 'a struct' },
-      formatStyle: 'DEFAULT',
+      formatStyle: 'DEFAULT'
     },
     {
       name: 'sizex',
       comment: 'sizex',
       type: { main: 'INTEGER' },
-      formatStyle: 'DEFAULT',
+      formatStyle: 'DEFAULT'
     },
     {
       name: 'list',
       comment: 'a list of structs',
       type: {
         main: 'ARRAY',
-        encapsulated: { main: 'ARRAY', encapsulated: { main: 'INTEGER' } },
+        encapsulated: { main: 'ARRAY', encapsulated: { main: 'INTEGER' } }
       },
-      formatStyle: 'DEFAULT',
-    },
+      formatStyle: 'DEFAULT'
+    }
   ],
   output: {
     name: 'output',
     comment: 'a list of structs',
     type: {
       main: 'ARRAY',
-      encapsulated: { main: 'ARRAY', encapsulated: { main: 'INTEGER' } },
+      encapsulated: { main: 'ARRAY', encapsulated: { main: 'INTEGER' } }
     },
-    formatStyle: 'DEFAULT',
-  },
+    formatStyle: 'DEFAULT'
+  }
 };
 
 const testcases = [
@@ -66,13 +66,13 @@ const testcases = [
       {
         value: [
           [1, 2, 3],
-          [1, 4, 5],
+          [1, 4, 5]
         ],
-        key: '4',
-      },
+        key: '4'
+      }
     ],
-    output: '',
-  },
+    output: ''
+  }
 ];
 
 export function transformInput(inputSchema, testcase) {
@@ -98,7 +98,7 @@ export function transformInput(inputSchema, testcase) {
 
     if (inputSchema.type.main === 'OBJECT') {
       const struct = structs.find(
-        (struct) => struct.name === inputSchema.type.structName,
+        (struct) => struct.name === inputSchema.type.structName
       );
       if (!struct) {
         throw new Error('khong co struct');
@@ -120,7 +120,7 @@ export function transformInput(inputSchema, testcase) {
   function getData2(data, inputSchema, structs?) {
     console.log(
       '🚀 ~ file: transform-input.util.ts ~ line 123 ~ getData2 ~ inputSchema',
-      inputSchema,
+      inputSchema
     );
     const [isFit, result] = fitsInOneLine({ data, inputSchema, structs });
     if (isFit) {
@@ -139,7 +139,9 @@ export function transformInput(inputSchema, testcase) {
       });
     }
     if (inputSchema.type.main === 'OBJECT') {
-      const struct = structs.find((struct) => struct.name == inputSchema.type.structName);
+      const struct = structs.find(
+        (struct) => struct.name == inputSchema.type.structName
+      );
       console.log('struct', struct);
       if (!struct) {
         throw new Error('khong co struct');
@@ -158,18 +160,18 @@ export function transformInput(inputSchema, testcase) {
   function getData(inputs, inputSchema) {
     console.log(
       '🚀 ~ file: transform-input.util.ts ~ line 161 ~ getData ~ inputs',
-      inputs,
+      inputs
     );
     inputs.forEach((value, index) => {
       getData2(value, inputSchema.inputs[index], inputSchema.structs);
     });
-    ws.end();
+    // ws.end();
   }
 
   const inputMapping = (testcase.inputs || []).map((input) => input.value);
   console.log(
     '🚀 ~ file: transform-input.util.ts ~ line 170 ~ transformInput ~ inputMapping',
-    inputMapping,
+    inputMapping
   );
   getData(inputMapping, inputSchema);
   console.log('resultLine', resultLine);
@@ -182,26 +184,26 @@ const inputSchemaTest = {
   structs: [
     {
       name: 'STRUCT1',
-      fields: [{ name: 'a', type: { main: 'INTEGER' }, formatStyle: 'DEFAULT' }],
-    },
+      fields: [{ name: 'a', type: { main: 'INTEGER' }, formatStyle: 'DEFAULT' }]
+    }
   ],
   inputs: [
     {
       name: 'input1',
       type: { main: 'OBJECT', structName: 'STRUCT1' },
-      formatStyle: 'DEFAULT',
+      formatStyle: 'DEFAULT'
     },
     {
       name: 'input2',
       type: { main: 'INTEGER' },
-      formatStyle: 'DEFAULT',
-    },
+      formatStyle: 'DEFAULT'
+    }
   ],
   output: {
     name: '__output__',
     type: { main: 'OBJECT', structName: 'STRUCT1' },
-    formatStyle: 'DEFAULT',
-  },
+    formatStyle: 'DEFAULT'
+  }
 };
 const testcaseTest = [
   {
@@ -209,11 +211,11 @@ const testcaseTest = [
       { value: { a: 1 }, key: '3' },
       {
         value: 2,
-        key: '4',
-      },
+        key: '4'
+      }
     ],
-    output: '',
-  },
+    output: ''
+  }
 ];
 const result = transformInput(inputSchemaTest, testcaseTest[0]);
 console.log(result);
