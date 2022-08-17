@@ -58,7 +58,9 @@ spec:
             - name: LOG_FILE_NAME
               value: "/log/log.log"   
             - name: MODEL_CONFIG_PATH
-              value: "dist/model.conf"            
+              value: "dist/model.conf"
+            - name: APP_HOST_DOMAIN
+              value: edicode.dev            
 
 ---
 apiVersion: v1

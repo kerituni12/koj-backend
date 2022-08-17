@@ -280,7 +280,7 @@ export class AuthService {
     const globalPrefix = this.configService.get('app.globalPrefix');
     const maxAge = this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME');
     const cookie: CookieOptions = {
-      domain: 'koj.test',
+      domain: process.env.APP_HOST_DOMAIN,
       maxAge: maxAge,
       httpOnly: true,
       secure: true,
@@ -297,7 +297,7 @@ export class AuthService {
       maxAge
     );
     const cookie: CookieOptions = {
-      domain: 'koj.test',
+      domain: process.env.APP_HOST_DOMAIN,
       maxAge: Number(maxAge),
       httpOnly: true,
       secure: true,
