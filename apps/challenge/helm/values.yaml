@@ -5,6 +5,8 @@ postgres:
   url: "postgresql://eadmin:Random123%40@edicode.dev:5432/challenge?connect_timeout=300"
 nats:
   url: "nats://nats.nats:4222"
+redis:
+  url: "redis://redis:4222"
 app:
   name: challenge
   port: 80

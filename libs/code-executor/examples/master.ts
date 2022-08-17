@@ -4,7 +4,7 @@ import { performance } from 'perf_hooks';
 import CodeExecutor from '../src/CodeExecutor';
 import logger from '../src/utils/logger';
 
-const codeExecutor = new CodeExecutor('oj-executor', 'redis://127.0.0.1:6379');
+const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
 
 /**
  * base64: true is also an option if input,

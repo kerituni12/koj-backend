@@ -8,7 +8,7 @@ import logger from '../src/utils/logger';
  */
 const worker = new Worker(
   'oj-executor',
-  'redis://127.0.0.1:6379',
+  process.env.REDIS_URL,
   './transform-worker.js'
 );
 

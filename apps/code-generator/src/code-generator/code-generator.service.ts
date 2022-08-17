@@ -8,7 +8,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { CodeExecutor } from '@koj/code-executor';
 import { ChallengeSubmitInput } from '../interfaces/code-submit.interface';
 
-const codeExecutor = new CodeExecutor('oj-executor', 'redis://127.0.0.1:6379');
+const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
 
 @Injectable()
 export class CodeGeneratorService {

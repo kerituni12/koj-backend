@@ -36,7 +36,7 @@ spec:
             - name: JWT_REFRESH_SECRET
               value: nestjsPrismaRefreshSecret
             - name: JWT_REFRESH_TOKEN_EXPIRATION_TIME
-              value: "604800"
+              value: "604800000"
             - name: BCRYPT_SALT_OR_ROUND
               value: "10"
             - name: CRYPTO_AUTH_SECRET

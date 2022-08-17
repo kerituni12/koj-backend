@@ -10,17 +10,17 @@ import { Logger } from './logger.service';
       pinoHttp: {
         logger: logger,
         autoLogging: false,
-        customProps: function (req) {
+        customProps: function (req: any) {
           return {
-            ip: req.userIp || '',
+            ip: req.userIp || ''
           };
-        },
+        }
       },
       forRoutes: ['*'],
-      exclude: [{ method: RequestMethod.ALL, path: '/health' }],
-    }),
+      exclude: [{ method: RequestMethod.ALL, path: '/health' }]
+    })
   ],
   providers: [Logger, PinoLogger],
-  exports: [Logger, PinoLogger],
+  exports: [Logger, PinoLogger]
 })
 export class LoggerModule {}

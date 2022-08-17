@@ -23,7 +23,7 @@ import { KSubmissionWhereUniqueInput } from '../dto/submission-where-unique.inpu
 import { RUN_SUBMIT, RUN_TEST } from '@koj/common/constants';
 import { decodeBase64, encodeBase64 } from '@koj/common/utils';
 
-const codeExecutor = new CodeExecutor('oj-executor', 'redis://127.0.0.1:6379');
+const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
 export interface SubmissionWhereCondition {
   id?: number;
   slug_domainId: { slug: string; domainId: number };

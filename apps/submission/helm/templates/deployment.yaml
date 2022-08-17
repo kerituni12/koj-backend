@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.app.name }}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
@@ -26,7 +26,9 @@ spec:
             - name: NATS_URL
               value: {{ .Values.nats.url }}
             - name: POSTGRES_URL
-              value: {{ .Values.postgres.url }}            
+              value: {{ .Values.postgres.url }} 
+            - name: REDIS_URL
+              value: {{ .Values.redis.url }}           
 
 ---
 apiVersion: v1
