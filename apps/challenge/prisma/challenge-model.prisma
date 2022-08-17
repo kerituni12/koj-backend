@@ -16,7 +16,7 @@ model Challenge {
     commentCount           Int?       @map("comment_count")
     contestId              Int?       @map("contest_id")
     status                 String     @default("disabled")
-    categoryId             Int?
+    categoryId             Int?       @map("category_id")
     description            String?
     companyTags            Int[]      @map("company_tags")
     topicTags              TopicTag[]
