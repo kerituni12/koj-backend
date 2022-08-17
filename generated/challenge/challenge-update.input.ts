@@ -6,7 +6,7 @@ import { Float } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { ChallengeUpdatecompanyTagsInput } from '../prisma/challenge-updatecompany-tags.input';
-import { TopicTagUpdateManyWithoutChallengesNestedInput } from '../topic-tag/topic-tag-update-many-without-challenges-nested.input';
+import { TopicTagUpdateManyWithoutChallengesInput } from '../topic-tag/topic-tag-update-many-without-challenges.input';
 
 @InputType()
 export class ChallengeUpdateInput {
@@ -50,8 +50,8 @@ export class ChallengeUpdateInput {
     @Field(() => ChallengeUpdatecompanyTagsInput, {nullable:true})
     companyTags?: ChallengeUpdatecompanyTagsInput;
 
-    @Field(() => TopicTagUpdateManyWithoutChallengesNestedInput, {nullable:true})
-    topicTags?: TopicTagUpdateManyWithoutChallengesNestedInput;
+    @Field(() => TopicTagUpdateManyWithoutChallengesInput, {nullable:true})
+    topicTags?: TopicTagUpdateManyWithoutChallengesInput;
 
     @Field(() => GraphQLJSON, {nullable:true})
     contributors?: any;

@@ -2,7 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
-import { ChallengeUncheckedUpdateManyWithoutTopicTagsNestedInput } from '../challenge/challenge-unchecked-update-many-without-topic-tags-nested.input';
+import { ChallengeUncheckedUpdateManyWithoutTopicTagsInput } from '../challenge/challenge-unchecked-update-many-without-topic-tags.input';
 
 @InputType()
 export class TopicTagUncheckedUpdateInput {
@@ -22,6 +22,6 @@ export class TopicTagUncheckedUpdateInput {
     @HideField()
     domainId?: number;
 
-    @Field(() => ChallengeUncheckedUpdateManyWithoutTopicTagsNestedInput, {nullable:true})
-    challenges?: ChallengeUncheckedUpdateManyWithoutTopicTagsNestedInput;
+    @Field(() => ChallengeUncheckedUpdateManyWithoutTopicTagsInput, {nullable:true})
+    challenges?: ChallengeUncheckedUpdateManyWithoutTopicTagsInput;
 }

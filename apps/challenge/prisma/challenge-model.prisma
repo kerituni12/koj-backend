@@ -7,11 +7,11 @@ model Challenge {
     id                     Int        @id @default(autoincrement())
     title                  String
     slug                   String     @default(cuid())
-    acceptedLanguages      Int[]
+    acceptedLanguages      Int[]      @map("accepted_languages")
     languages              Json?
     rate                   Float?     @db.Real
     audience               String     @default("onlyme")
-    functionName           String?
+    functionName           String?    @map("function_name")
     /// @HideField({input: true})
     commentCount           Int?       @map("comment_count")
     contestId              Int?       @map("contest_id")
