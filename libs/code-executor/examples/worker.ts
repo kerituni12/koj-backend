@@ -7,9 +7,9 @@ import logger from '../src/utils/logger';
  * the code and testcases will be saved here)
  */
 const worker = new Worker(
-  'myExecutor',
+  'oj-executor',
   'redis://127.0.0.1:6379',
-  './transform-worker.js',
+  './transform-worker.js'
 );
 
 async function main() {

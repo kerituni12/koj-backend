@@ -8,7 +8,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { CodeExecutor } from '@koj/code-executor';
 import { ChallengeSubmitInput } from '../interfaces/code-submit.interface';
 
-const codeExecutor = new CodeExecutor('myExecutor', 'redis://127.0.0.1:6379');
+const codeExecutor = new CodeExecutor('oj-executor', 'redis://127.0.0.1:6379');
 
 @Injectable()
 export class CodeGeneratorService {
@@ -18,7 +18,7 @@ export class CodeGeneratorService {
       name: data.functionName,
       inputs: data.inputs.set,
       structs: data.structs.set,
-      output: { type: data.output },
+      output: { type: data.output }
     };
     const inputData = Input.formJson(<any>inputSchema);
 
@@ -30,14 +30,21 @@ export class CodeGeneratorService {
       const promiseWriteCode = data.languages.set
         .filter((language) => ['cplusplus', 'javascript'].includes(language.id))
         .map((language) =>
-          languageConfigs[language.id].gen({ inputData, domainId, slug, path }),
+          languageConfigs[language.id].gen({ inputData, domainId, slug, path })
         );
       promiseWriteCode.push(
-        languageConfigs['output'].gen({ inputData, domainId, slug, path }),
+        languageConfigs['output'].gen({ inputData, domainId, slug, path })
       );
-      const promiseWriteTestCase = (data.testcases?.set || []).map((testcase, index) => {
-        return saveTestcases({ inputSchema: inputData, path, testcase, index });
-      });
+      const promiseWriteTestCase = (data.testcases?.set || []).map(
+        (testcase, index) => {
+          return saveTestcases({
+            inputSchema: inputData,
+            path,
+            testcase,
+            index
+          });
+        }
+      );
 
       await Promise.all([...promiseWriteCode, ...promiseWriteTestCase]);
     } catch (error) {
@@ -57,12 +64,12 @@ export class CodeGeneratorService {
         code: languageConfigs[languageId].genSolution(content, functionName),
         language: languageId,
         userSolvePath,
-        challengePath,
+        challengePath
       });
       if (result.error) {
         return {
           result: null,
-          error: result.error,
+          error: result.error
         };
       }
       this.logger.info(result);

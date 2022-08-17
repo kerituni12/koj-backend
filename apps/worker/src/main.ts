@@ -17,9 +17,10 @@ async function main() {
 
   /* array of languages is optional argument */
   const buildLanguages = process.env.LANGUAGES.split(/,\s*/);
-  const ignoreBuild = process.env.IGNORE_BUILD;
+  const ignoreBuild = process.env.IGNORE_BUILD === 'true';
 
   if (!ignoreBuild) {
+    console.log('build');
     await worker.build(buildLanguages, process.env.BUILD_ARCHITECT);
   }
 

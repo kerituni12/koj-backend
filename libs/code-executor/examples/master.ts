@@ -4,7 +4,7 @@ import { performance } from 'perf_hooks';
 import CodeExecutor from '../src/CodeExecutor';
 import logger from '../src/utils/logger';
 
-const codeExecutor = new CodeExecutor('myExecutor', 'redis://127.0.0.1:6379');
+const codeExecutor = new CodeExecutor('oj-executor', 'redis://127.0.0.1:6379');
 
 /**
  * base64: true is also an option if input,
@@ -184,27 +184,27 @@ const inputs = [
     testCases: [
       {
         input: '',
-        output: '[[1, 2, 3], [1, 4, 5]]',
+        output: '[[1, 2, 3], [1, 4, 5]]'
       },
       {
         input: '',
-        output: '[[1, 2, 3], [1, 4, 5]]',
+        output: '[[1, 2, 3], [1, 4, 5]]'
       },
       {
         input: '',
-        output: '[[1, 2, 3], [1, 4, 5]]',
+        output: '[[1, 2, 3], [1, 4, 5]]'
       },
       {
         input: '',
-        output: '[[1, 2, 3], [1, 4, 5]]',
+        output: '[[1, 2, 3], [1, 4, 5]]'
       },
       {
         input: '',
-        output: '[[1, 2, 3], [1, 4, 5]]',
-      },
+        output: '[[1, 2, 3], [1, 4, 5]]'
+      }
     ],
-    timeout: 2,
-  },
+    timeout: 2
+  }
   // {
   //   language: 'Bash',
   //   code: 'echo hello',
@@ -243,7 +243,9 @@ const inputs = [
 async function main() {
   try {
     const time = performance.now();
-    const results = await Promise.all(inputs.map((input) => codeExecutor.runCode(input)));
+    const results = await Promise.all(
+      inputs.map((input) => codeExecutor.runCode(input))
+    );
     logger.info(results);
     logger.info(`time take : ${(performance.now() - time) / 1000}s`);
     codeExecutor.stop();

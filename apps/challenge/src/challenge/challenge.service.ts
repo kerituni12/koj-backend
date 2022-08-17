@@ -24,7 +24,7 @@ import saveFolder from '../utils/save-folder.util';
 import saveTestcases from '../utils/save-testcase.util';
 import { languageConfigs } from '../utils/language.config';
 
-const codeExecutor = new CodeExecutor('myExecutor', process.env.REDIS_URL);
+const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
 export interface ChallengeWhereCondition {
   id?: number;
   slug_domainId: { slug: string; domainId: number };
