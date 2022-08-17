@@ -25,7 +25,7 @@ export default class Worker {
     folderPath?: string,
     transformWorkerPath?: string
   ) {
-    this.docker = new Docker({ socketPath: '/var/run/docker.sock' });
+    this.docker = new Docker();
     this.runner = new Runner(this.docker, transformWorkerPath);
     this.builder = new Builder(this.docker);
     this.queue = new Bull(name, redis, {
