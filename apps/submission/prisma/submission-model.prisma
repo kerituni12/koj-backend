@@ -1,6 +1,6 @@
 model Submission {
     id                Int      @id @default(autoincrement())
-    languageId        String?
+    languageId        String?  @map("language_id")
     challengeId       Int?     @map("challenge_id")
     content           String
     result            Json?
@@ -20,7 +20,7 @@ model Submission {
 
 model SubmissionContest {
     id                Int      @id @default(autoincrement())
-    languageId        String?
+    languageId        String?  @map("language_id")
     contestId         Int?     @map("contest_id")
     challengeId       Int?     @map("challenge_id")
     content           String
