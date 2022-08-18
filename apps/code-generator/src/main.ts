@@ -9,6 +9,7 @@ import { CodeGeneratorModule } from './code-generator/code-generator.module';
 async function bootstrap() {
   const app = await NestFactory.create(CodeGeneratorModule);
 
+  console.log(process.env);
   const globalPrefix = 'code-generators';
   app.setGlobalPrefix(globalPrefix);
 
@@ -16,7 +17,7 @@ async function bootstrap() {
     transport: Transport.NATS,
     options: {
       servers: [process.env.NATS_URL],
-      queue: 'code-generator_queue'
+      queue: 'g_queue'
     }
   });
 
