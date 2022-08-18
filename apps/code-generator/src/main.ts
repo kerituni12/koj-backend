@@ -4,10 +4,10 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-import { AppModule } from './code-generator/code-generator.module';
+import { CodeGeneratorModule } from './code-generator/code-generator.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(CodeGeneratorModule);
 
   const globalPrefix = 'code-generators';
   app.setGlobalPrefix(globalPrefix);
