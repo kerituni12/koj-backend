@@ -1,14 +1,12 @@
-image: kerituni12/challenge:1.1
+image: kerituni12/code-generator:1.1
 pullPolicy: Always
 storageClassName: longhorn
-postgres:
-  url: "postgresql://eadmin:Random123%40@edicode.dev:5432/challenge?connect_timeout=300"
 nats:
   url: "nats://nats.nats:4222"
 redis:
   url: "redis://redis:6379"
 app:
-  name: challenge
+  name: code-generator
   port: 80
   targetPort: 3000
   basePath: /code-executor
