@@ -6,5 +6,5 @@ app:
   name: worker
 build:
   architect: arm64
-  languages: Cplusplus, Javascript
+  languages: Javascript
   ignore: true

@@ -20,6 +20,12 @@ spec:
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.app.targetPort }}
+          volumeMounts:
+            - name: code-executor
+              mountPath: {{ .Values.app.basePath }}
+          securityContext:
+            privileged: true
+            runAsUser: 0
           env:
             - name: PORT
               value: "{{ .Values.app.targetPort }}"
@@ -28,7 +34,13 @@ spec:
             - name: POSTGRES_URL
               value: {{ .Values.postgres.url }}  
             - name: REDIS_URL
-              value: {{ .Values.redis.url }}          
+              value: {{ .Values.redis.url }}
+            - name: BASE_PATH
+              value: {{ .Values.app.basePath }}
+      volumes:
+        - name: code-executor
+          persistentVolumeClaim:
+            claimName: code-executor
 
 ---
 apiVersion: v1

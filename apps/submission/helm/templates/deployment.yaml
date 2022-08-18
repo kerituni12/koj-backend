@@ -14,10 +14,10 @@ spec:
       labels:
         app: {{ .Values.app.name }}
     spec:
-      securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          fsGroup: 1000
+      # securityContext:
+      #     runAsUser: 1001
+      #     runAsGroup: 1001
+      #     fsGroup: 1001
       containers:
         - name: {{ .Values.app.name }}
           image: {{ .Values.image }}
@@ -27,8 +27,9 @@ spec:
           volumeMounts:
             - name: code-executor
               mountPath: {{ .Values.app.basePath }}
-            - name: dockersock
-              mountPath: "/var/run/docker.sock"
+          securityContext:
+            privileged: true
+            runAsUser: 0
           env:
             - name: PORT
               value: "{{ .Values.app.targetPort }}"
@@ -45,9 +46,7 @@ spec:
         - name: code-executor
           persistentVolumeClaim:
             claimName: code-executor
-        - name: dockersock
-          hostPath:
-            path: /var/run/docker.sock  
+        
 ---
 apiVersion: v1
 kind: Service

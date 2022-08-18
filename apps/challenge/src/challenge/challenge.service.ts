@@ -152,7 +152,7 @@ export class ChallengeService {
     const inputData = Input.formJson(<any>inputSchema);
 
     try {
-      const basePath = '/mnt/Data/code1/code-executor1';
+      const basePath = process.env.BASE_PATH;
       const path = `${basePath}/challenges/${domainId}/${slug}`;
       await saveFolder(path);
 
