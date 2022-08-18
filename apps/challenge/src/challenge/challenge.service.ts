@@ -24,7 +24,7 @@ import saveFolder from '../utils/save-folder.util';
 import saveTestcases from '../utils/save-testcase.util';
 import { languageConfigs } from '../utils/language.config';
 
-const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
+// const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
 export interface ChallengeWhereCondition {
   id?: number;
   slug_domainId: { slug: string; domainId: number };
@@ -185,41 +185,41 @@ export class ChallengeService {
     }
   }
 
-  async submit(data: ChallengeSubmitInput) {
-    const { content, functionName, languageId, challengeId, type, domainId } =
-      data;
-    console.log(
-      '🚀 ~ file: challenge.service.ts ~ line 190 ~ ChallengeService ~ submit ~ type',
-      type
-    );
-    try {
-      const basePath = process.env.BASE_PATH;
-      const userId = 'hieunguyen-123';
-      const challengePath = `${basePath}/challenges/${domainId}/${challengeId}`;
-      const userSolvePath = `${basePath}/user-solve/${challengeId}/${userId}`;
-      const time = performance.now();
-      const result = await codeExecutor.runCode({
-        type,
-        userSolvePath,
-        challengePath,
-        language: languageId,
-        code: languageConfigs[languageId].genSolution(content, functionName)
-      });
-      if (result.error) {
-        return {
-          result: null,
-          error: result.error
-        };
-      }
-      this.logger.info(result);
-      this.logger.info(`time take : ${(performance.now() - time) / 1000}s`);
+  // async submit(data: ChallengeSubmitInput) {
+  //   const { content, functionName, languageId, challengeId, type, domainId } =
+  //     data;
+  //   console.log(
+  //     '🚀 ~ file: challenge.service.ts ~ line 190 ~ ChallengeService ~ submit ~ type',
+  //     type
+  //   );
+  //   try {
+  //     const basePath = process.env.BASE_PATH;
+  //     const userId = 'hieunguyen-123';
+  //     const challengePath = `${basePath}/challenges/${domainId}/${challengeId}`;
+  //     const userSolvePath = `${basePath}/user-solve/${challengeId}/${userId}`;
+  //     const time = performance.now();
+  //     const result = await codeExecutor.runCode({
+  //       type,
+  //       userSolvePath,
+  //       challengePath,
+  //       language: languageId,
+  //       code: languageConfigs[languageId].genSolution(content, functionName)
+  //     });
+  //     if (result.error) {
+  //       return {
+  //         result: null,
+  //         error: result.error
+  //       };
+  //     }
+  //     this.logger.info(result);
+  //     this.logger.info(`time take : ${(performance.now() - time) / 1000}s`);
 
-      return { result: result.data.tests };
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
+  //     return { result: result.data.tests };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // }
 
   private getChallengeWhereUnique(
     { id, slug }: KChallengeWhereUniqueInput,

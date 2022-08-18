@@ -85,8 +85,8 @@ export class AppController {
     return this.challengeService.remove(where, select);
   }
 
-  @MessagePattern(CHALLENGE_SUBMIT)
-  m_submit(@Payload() { data }) {
-    return this.challengeService.submit(data);
-  }
+  // @MessagePattern(CHALLENGE_SUBMIT)
+  // m_submit(@Payload() { data }) {
+  //   return this.challengeService.submit(data);
+  // }
 }
