@@ -8,7 +8,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { CodeExecutor } from '@koj/code-executor';
 import { ChallengeSubmitInput } from '../interfaces/code-submit.interface';
 
-const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
+// const codeExecutor = new CodeExecutor('oj-executor', process.env.REDIS_URL);
 
 @Injectable()
 export class CodeGeneratorService {
@@ -52,33 +52,33 @@ export class CodeGeneratorService {
     }
   }
 
-  async submit(data: ChallengeSubmitInput) {
-    const { content, functionName, languageId, slug, domainId } = data;
-    try {
-      const basePath = process.env.BASE_PATH;
-      const userId = 'hieunguyen-123';
-      const challengePath = `${basePath}/challenges/${domainId}/${slug}`;
-      const userSolvePath = `${basePath}/user-solve/${slug}/${userId}`;
-      const time = performance.now();
-      const result = await codeExecutor.runCode({
-        code: languageConfigs[languageId].genSolution(content, functionName),
-        language: languageId,
-        userSolvePath,
-        challengePath
-      });
-      if (result.error) {
-        return {
-          result: null,
-          error: result.error
-        };
-      }
-      this.logger.info(result);
-      this.logger.info(`time take : ${(performance.now() - time) / 1000}s`);
+  // async submit(data: ChallengeSubmitInput) {
+  //   const { content, functionName, languageId, slug, domainId } = data;
+  //   try {
+  //     const basePath = process.env.BASE_PATH;
+  //     const userId = 'hieunguyen-123';
+  //     const challengePath = `${basePath}/challenges/${domainId}/${slug}`;
+  //     const userSolvePath = `${basePath}/user-solve/${slug}/${userId}`;
+  //     const time = performance.now();
+  //     const result = await codeExecutor.runCode({
+  //       code: languageConfigs[languageId].genSolution(content, functionName),
+  //       language: languageId,
+  //       userSolvePath,
+  //       challengePath
+  //     });
+  //     if (result.error) {
+  //       return {
+  //         result: null,
+  //         error: result.error
+  //       };
+  //     }
+  //     this.logger.info(result);
+  //     this.logger.info(`time take : ${(performance.now() - time) / 1000}s`);
 
-      return { result: result.data.tests };
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
+  //     return { result: result.data.tests };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // }
 }
